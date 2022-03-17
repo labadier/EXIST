@@ -21,14 +21,15 @@ for target_lang in ['en', 'es', 'fr', 'de']:
     spamwriter = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
     spamwriter.writerow(params.columns)
     
-    for i in range(0, len(data_frame), 100):
+    for i in range(0, len(data_frame), 20):
       
       if (i*100.0)/len(data_frame) - perc > 1:
         perc = (i*100.0)/len(data_frame)
         print(f'\rPivot Language {target_lang}: {perc:.2f}%', end = "")
 
-      data = data_frame[i:i + 100].copy()
-       
+      data = data_frame[i:i + 20].copy()
+      mx = max(mx, len('\n'.join(data['tweet'].to_list())))
+          
       if len(set(data['lang'].to_list())) == 1 and data.iloc[0]['lang'] != target_lang:
         ts = Translator()
         time.sleep(random.random()*3)
@@ -38,7 +39,7 @@ for target_lang in ['en', 'es', 'fr', 'de']:
           print(f'An exception occurred on index {i}')
       elif len(set(data['lang'].to_list())) > 1:
         ts = Translator()
-        for j in range(100):
+        for j in range(20):
           if data.iloc[j]['lang'] != target_lang:
             data.iloc[j]['tweet'] = ts.translate(text=data.iloc[j]['tweet'], dest=target_lang, src = data.iloc[j]['lang']).text
             time.sleep(random.random()*3)
