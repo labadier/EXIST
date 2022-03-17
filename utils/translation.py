@@ -28,8 +28,7 @@ for target_lang in ['en', 'es', 'fr', 'de']:
         print(f'\rPivot Language {target_lang}: {perc:.2f}%', end = "")
 
       data = data_frame[i:i + 20].copy()
-      mx = max(mx, len('\n'.join(data['tweet'].to_list())))
-          
+       
       if len(set(data['lang'].to_list())) == 1 and data.iloc[0]['lang'] != target_lang:
         ts = Translator()
         time.sleep(random.random()*3)
