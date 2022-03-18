@@ -16,7 +16,7 @@ data_frame = pd.read_csv(os.path.join(params.root, 'data/HAHA/filtered.csv'))
 with open(os.path.join(params.root, 'data/augmented.csv'), 'at', newline='', encoding="utf-8") as csvfile:
   spamwriter = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
   for row in data_frame.iterrows():
-    spamwriter.writerow(['HAHA'] + ["es", row[1]['text'].replace('\n', ' '), 1] + [int(i == row[1]['humor_target']) for i in params.root[4:]])
+    spamwriter.writerow(['HAHA'] + ["es", row[1]['text'].replace('\n', ' '), 1] + [int(i == row[1]['humor_target']) for i in params.columns[4:] ])
 
 data_frame = pd.read_csv(os.path.join(params.root, 'data/HAHACKATHON/train.csv'))
 data_frame = data_frame[data_frame.apply(lambda x: x.astype(str).str.lower())['text'].str.contains('|'.join(params.sexistPhrase))][data_frame['offense_rating'] > 1.0]
