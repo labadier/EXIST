@@ -1,19 +1,22 @@
-import torch, os
+from pytest import param
+import torch, os, random
 from utils.params import params
 import numpy as np, pandas as pd
 from transformers import AutoModel, AutoTokenizer
 from torch.utils.data import Dataset, DataLoader
 from utils.params import params, bcolors
+from sklearn.model_selection import StratifiedKFold
 
 class Data(Dataset):
 
-  def __init__(self, data, fashion = 'multitask'):
+  def __init__(self, data, fashion):
 
     self.text = data['text']
     self.label = data['label']
+    self.fashion = fashion
 
   def __len__(self):
-    return len(self.data)
+    return len(self.text)
 
   def __getitem__(self, idx):
 
@@ -26,20 +29,25 @@ class Data(Dataset):
       return ret
     
     if self.fashion == 'singletask':
-      ret['labels'] = self.data['sexism'].iloc[idx]
+      ret['labels'] = self.label[idx, 0]
     else:
-      ret['labels'] = self.data[params.columns[-6:]].astype(int).iloc[idx]
+      ret['labels'] = self.label[idx]
 
     return ret
 
 def HugginFaceLoad(language, weigths_source):
 
   prefix = 'data' if weigths_source == 'offline' else ''
-  model = AutoModel.from_pretrained(os.path.join(prefix , params.langaugeModel[language]))
-  tokenizer = AutoTokenizer.from_pretrained(os.path.join(prefix , params.langaugeModel[language]), do_lower_case=True, TOKENIZERS_PARALLELISM=True)
+  model = AutoModel.from_pretrained(os.path.join(prefix , params.models[language]))
+  tokenizer = AutoTokenizer.from_pretrained(os.path.join(prefix , params.models[language]), do_lower_case=True, TOKENIZERS_PARALLELISM=True)
 
   return model, tokenizer
-  
+
+def seed_worker(worker_id):
+  worker_seed = torch.initial_seed() % 2**32
+  np.random.seed(worker_seed)
+  random.seed(worker_seed)
+
 class MultiTaskLoss(torch.nn.Module):
     def __init__(self):
         super(MultiTaskLoss, self).__init__()
@@ -61,11 +69,10 @@ class SeqModel(torch.nn.Module):
     super(SeqModel, self).__init__()
 		
     self.mode = kwargs['mode']
-    self.model = kwargs['model']
     self.best_acc = None
     self.max_length = max_length
     self.interm_neurons = interm_size
-    self.transformer, self.tokenizer = HugginFaceLoad(self.model)
+    self.transformer, self.tokenizer = HugginFaceLoad( kwargs['lang'], self.mode)
     self.intermediate = torch.nn.Sequential(torch.nn.Linear(in_features=768, out_features=self.interm_neurons), torch.nn.LeakyReLU(),
                                             torch.nn.Linear(in_features=self.interm_neurons, out_features=self.interm_neurons>>1),
                                             torch.nn.LeakyReLU())
@@ -139,7 +146,7 @@ def compute_acc(ground_truth, predictions, multitask):
 def train_model(model_name, model, trainloader, devloader, epoches, lr, decay, output, split=1, multitask=False):
   
   eloss, eacc, edev_loss, edev_acc = [], [], [], []
-  
+
   optimizer = model.makeOptimizer(lr=lr, decay=decay)
   batches = len(trainloader)
 
@@ -223,3 +230,28 @@ def train_model(model_name, model, trainloader, devloader, epoches, lr, decay, o
 
   return {'loss': eloss, 'acc': eacc, 'dev_loss': edev_loss, 'dev_acc': edev_acc}
 
+
+def train_model_CV(model_name, lang, data, splits = 5, epoches = 4, batch_size = 8, max_length = 120, 
+                    interm_layer_size = 64, lr = 1e-5,  decay=2e-5, output='logs', multitask=False, model_mode='offline'):
+
+  history = []
+  skf = StratifiedKFold(n_splits=splits, shuffle=True, random_state = 23)
+  
+  tmplb = data['labels'][:,0]
+  params = {'mode':model_mode, 'multitask':multitask, 'lang':lang}
+  for i, (train_index, test_index) in enumerate(skf.split(data['text'], tmplb)):  
+    
+    history.append({'loss': [], 'acc':[], 'dev_loss': [], 'dev_acc': []})
+    model = SeqModel(interm_layer_size, max_length, **params)
+
+    trainloader = DataLoader(Data({'text':data['text'][train_index], 'label': data['labels'][train_index]}, 'singletask' if not multitask else 'multitask'), batch_size=batch_size, shuffle=True, num_workers=4, worker_init_fn=seed_worker)
+    devloader = DataLoader(Data({'text':data['text'][test_index], 'label':data['labels'][test_index]}, 'singletask' if not multitask else 'multitask'), batch_size=batch_size, shuffle=True, num_workers=4, worker_init_fn=seed_worker)
+
+    history.append(train_model(model_name, model, trainloader, devloader, epoches, lr, decay, output, i+1, multitask=multitask))
+      
+    print('Training Finished Split: {}'. format(i+1))
+    del trainloader
+    del model
+    del devloader
+    break
+  return history

@@ -11,6 +11,16 @@ class params:
   
   sexistPhrase = ['bitch', 'women', 'woman', 'femini', 'working mothers', 'office mom', 'man up',
                 'lady boss', 'female ceo', 'mom']
+
+  
+  LR, DECAY = 1e-5,  2e-5
+  SPLITS = 5
+  IL = 64
+  ML = 130
+  BS = 64
+  EPOCHES = 4
+  MULTITASK = 'stl'
+  PRET_MODE = 'offline'
   
 class bcolors:
   HEADER = '\033[95m'
