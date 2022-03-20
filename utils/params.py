@@ -21,6 +21,7 @@ class params:
   EPOCHES = 4
   MULTITASK = 'stl'
   PRET_MODE = 'offline'
+  OUTPUT = '.'
   
 class bcolors:
   HEADER = '\033[95m'

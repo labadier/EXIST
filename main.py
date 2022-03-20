@@ -1,18 +1,6 @@
-#%%
-from utils.params import params
-from utils.utils import load_data, plot_training
-from models.SeqModels import train_model_CV, SeqModel
-
-text, label  = load_data('data/back_to_en.csv')
-lang = 'en'
-
-train_model_CV(model_name=params.models[lang].split('/')[-1], data={'text':text, 'labels':label}, 
-              lang='en', splits=5, epoches=1, batch_size=2, multitask=True, model_mode='offline')
-# %%
-
 import argparse, sys, os, numpy as np, torch, random
 from utils.params import params, bcolors
-from utils.utils import load_data
+from utils.utils import load_data, plot_training
 from models.SeqModels import train_model_CV
 
 torch.manual_seed(0)
@@ -24,7 +12,7 @@ def check_params(args=None):
   parser = argparse.ArgumentParser(description='Language Model Encoder')
 
   parser.add_argument('-phase', metavar='phase', help='Phase')
-  parser.add_argument('-output', metavar='output', help='Output Path')
+  parser.add_argument('-output', metavar='output', default = params.OUTPUT, help='Output Path')
   parser.add_argument('-lr', metavar='lrate', default = params.LR , type=float, help='learning rate')
   parser.add_argument('-decay', metavar='decay', default = params.DECAY, type=float, help='learning rate decay')
   parser.add_argument('-splits', metavar='splits', default = params.SPLITS, type=int, help='spits cross validation')
@@ -36,7 +24,7 @@ def check_params(args=None):
   parser.add_argument('-l', metavar='lang', help='Language')
   parser.add_argument('-tf', metavar='train_file', help='Data Anotation Files for Training')
   parser.add_argument('-df', metavar='test_file', help='Data Anotation Files for Testing')
-  parser.add_argument('-wp', metavar='weigths_path', default=params.TRAIN_MODE, help='Saved Weights Path')
+  parser.add_argument('-wp', metavar='weigths_path', default="logs", help='Saved Weights Path')
   parser.add_argument('-mtl', metavar='multitask', default=params.MULTITASK, help='Multitask Leatning')
 
   return parser.parse_args(args)
