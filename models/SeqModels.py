@@ -255,3 +255,29 @@ def train_model_CV(model_name, lang, data, splits = 5, epoches = 4, batch_size =
     del devloader
     break
   return history
+
+def predict(model_name, model, data, batch_size, output, images_path, wp,  multitask = False, split = 1):
+  devloader = DataLoader(Data(data), batch_size=batch_size, shuffle=False, num_workers=4, worker_init_fn=seed_worker)
+  model.eval()
+  model.load(os.path.join(wp, f'{model_name}_split_{split}.pt'))
+  with torch.no_grad():
+    out = None
+    for k, data in enumerate(devloader, 0):   
+      dev_out = model(data)
+      if k == 0:
+          out = dev_out
+      else:  out = torch.cat((out, dev_out), 0)
+  
+  if os.path.isdir(output) == False:
+      os.system(f'mkdir {output}')
+
+  if multitask == False:
+    y_hat = np.int32(np.round(torch.argmax(torch.nn.functional.softmax(out, dim=-1), axis=-1).cpu().numpy(), decimals=0))
+    dictionary = {'id': np.array([i.split('/')[-1] for i in images_path]),  'misogynous':y_hat}  
+    df = pandas.DataFrame(dictionary) 
+    df.to_csv(os.path.join(output, 'preds.csv'), sep='\t', index=False, header=False)
+  else:
+    y_hat = torch.where(sigmoid(out) > 0.5, 1, 0).cpu().numpy()
+    dictionary = {'id': np.array([i.split('/')[-1] for i in images_path]),  'misogynous':y_hat[:,0], 'shaming':y_hat[:,1],	'stereotype':y_hat[:,2], 'objectification':y_hat[:,3],	'violence': y_hat[:,4]}  
+    df = pandas.DataFrame(dictionary) 
+    df.to_csv(os.path.join(output, 'preds.csv'), sep='\t', index=False, header=False)

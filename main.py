@@ -1,8 +1,7 @@
 #%%
-from posixpath import split
 from utils.params import params
-from utils.utils import load_data
-from models.SeqModels import train_model_CV
+from utils.utils import load_data, plot_training
+from models.SeqModels import train_model_CV, SeqModel
 
 text, label  = load_data('data/back_to_en.csv')
 lang = 'en'
@@ -74,21 +73,20 @@ if __name__ == '__main__':
     text, label  = load_data('data/back_to_en.csv')
     data = {'text':text, 'labels':label}
     
-    train_model_CV(model_name=params.models[lang].split('/')[-1], lang=lang, data=data, splits=splits, epoches=epoches, 
+    history = train_model_CV(model_name=params.models[lang].split('/')[-1], lang=lang, data=data, splits=splits, epoches=epoches, 
                   batch_size=batch_size, max_length=max_length, interm_layer_size = interm_layer_size, 
                   lr = learning_rate,  decay=decay, output=output, multitask=multitask, model_mode=model_mode)
     
     print(f"{bcolors.OKCYAN}{bcolors.BOLD}Training Finished for {lang.upper()} Model{bcolors.ENDC}")
-    plot_training(history[-1], arch, output, 'acc')
+    plot_training(history[-1], 'lm_{lang}', output, 'acc')
     exit(0)
 
   if phase == 'eval':
-    
-    images_path, text = load_data(data_path, gf, labeled = False, multitask=multitask)
-    data = {'text':text, 'images':images_path} 
-
-    params = {'max_edge': max_edge, 'min_edge': min_edge, 'min_boxes':min_boxes, 'max_boxes':max_boxes, 'model':arch, 'mode':'static', 'multitask':multitask}
-    model = MODELS[arch](interm_layer_size=interm_layer_size, max_length=max_length, **params)
+    pass
+    text, label  = load_data('data/back_to_en.csv')
+    data = {'text':text} 
+    params = {'mode':model_mode, 'multitask':multitask, 'lang':lang}
+    model = SeqModel(interm_layer_size=interm_layer_size, max_length=max_length, **params)
 
     predict(arch, model, data, batch_size, output, images_path, weights_path, multitask=multitask)
     save_encodings(arch, model, data, batch_size, output, images_path, weights_path)
