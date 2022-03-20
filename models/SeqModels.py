@@ -217,7 +217,7 @@ def train_model(model_name, model, trainloader, devloader, epoches, lr, decay, o
       measure = dev_acc[0]
 
     if model.best_acc is None or model.best_acc < measure:
-      model.save(os.path.join(output, f'{model_name}_split_{split}.pt'))
+      model.save(os.path.join(output, f'{model_name}_{["stl","mtl"][multitask]}.pt'))
       model.best_acc = measure
       band = True
 
