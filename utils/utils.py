@@ -5,7 +5,7 @@ from matplotlib import pyplot as plt
 def load_data(filename):
 
   data = pd.read_csv(filename, dtype=str)
-  text = data['tweet'].to_numpy()
+  text = data['text'].to_numpy()
     
   if len(data.keys()) < 4:
     return text

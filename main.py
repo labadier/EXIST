@@ -16,12 +16,13 @@ def check_params(args=None):
   parser.add_argument('-lr', metavar='lrate', default = params.LR , type=float, help='learning rate')
   parser.add_argument('-decay', metavar='decay', default = params.DECAY, type=float, help='learning rate decay')
   parser.add_argument('-splits', metavar='splits', default = params.SPLITS, type=int, help='spits cross validation')
-  parser.add_argument('-ml', metavar='max_length', default = params.ML, type=int, help='Maximun Tweet Length')
+  parser.add_argument('-ml', metavar='max_length', default = params.ML, type=int, help='Maximun Text Length')
   parser.add_argument('-wm', metavar='weigths_mode', default = params.PRET_MODE, help='Mode of pretraining weiths (online or offline)')
   parser.add_argument('-interm_layer', metavar='int_layer', default = params.IL, type=int, help='Intermediate layers neurons')
   parser.add_argument('-epoches', metavar='epoches', default=params.EPOCHES, type=int, help='Trainning Epoches')
   parser.add_argument('-bs', metavar='batch_size', default=params.BS, type=int, help='Batch Size')
   parser.add_argument('-l', metavar='lang', help='Language')
+  parser.add_argument('-lp', metavar='pivot_lang', help='Pivot Language for translation')
   parser.add_argument('-tf', metavar='train_file', help='Data Anotation Files for Training')
   parser.add_argument('-df', metavar='test_file', help='Data Anotation Files for Testing')
   parser.add_argument('-wp', metavar='weigths_path', default="logs", help='Saved Weights Path')
@@ -49,6 +50,8 @@ if __name__ == '__main__':
   df=parameters.df
   weights_path = parameters.wp
   lang = parameters.l
+  pivotLang = lang if parameters.lp is None else parameters.lp 
+
   multitask = (parameters.mtl == 'mtl')
 
   if phase == 'train':

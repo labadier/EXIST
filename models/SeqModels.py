@@ -70,6 +70,7 @@ class SeqModel(torch.nn.Module):
 		
     self.mode = kwargs['mode']
     self.best_acc = None
+    self.lang = kwargs['lang']
     self.max_length = max_length
     self.interm_neurons = interm_size
     self.transformer, self.tokenizer = HugginFaceLoad( kwargs['lang'], self.mode)
@@ -109,7 +110,7 @@ class SeqModel(torch.nn.Module):
 
   def makeOptimizer(self, lr=1e-5, decay=2e-5, multiplier=1, increase=0.1):
 
-    if self.mode == 'static':
+    if self.lang == 'fr':
       return torch.optim.Adam(self.parameters(), lr=lr, weight_decay=decay)
 
     params = []
