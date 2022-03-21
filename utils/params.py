@@ -4,7 +4,7 @@ class params:
   root = '..'
   models = {'fr': 'flaubert/flaubert_base_cased', 'en': 'vinai/bertweet-base',
             'es':'finiteautomata/beto-sentiment-analysis', 'de':'oliverguhr/german-sentiment-bert'}
-  
+
   columns = ['campain', 'lang', 'tweet','sexism','ideological','stereotype','object','violence','mysogeny']
 
   columns_exist = ['ideological-inequality', 'stereotyping-dominance', 'objectification', 'sexual-violence', 'misogyny-non-sexual-violence']
@@ -16,7 +16,7 @@ class params:
   LR, DECAY = 1e-5,  2e-5
   SPLITS = 5
   IL = 64
-  ML = 130
+  ML = 110
   BS = 64
   EPOCHES = 4
   MULTITASK = 'stl'

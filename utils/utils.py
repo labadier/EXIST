@@ -12,6 +12,18 @@ def load_data(filename):
   labels = data[params.columns[3:]].astype(int).to_numpy()[:16]
   return text, labels
 
+def evalData(filename, lang):
+
+  data = pd.read_csv(filename, dtype=str, sep='\t')
+  data = data[data['language'] == lang]
+  testcase = data['test_case'].to_numpy()
+  ids = data['id'].to_numpy()
+  text = data['text'].to_numpy()
+  if 'task1' in data.keys():
+    return testcase, ids, text, {'task1':data['task1'].to_numpy(), 'task2':data['task2'].to_numpy()}
+  else: return testcase, ids, text
+    
+
 def plot_training(history, model, output, measure='loss'):
     
     plotdev = 'dev_' + measure

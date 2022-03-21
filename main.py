@@ -1,7 +1,7 @@
 import argparse, sys, os, numpy as np, torch, random
 from utils.params import params, bcolors
-from utils.utils import load_data, plot_training
-from models.SeqModels import train_model_CV
+from utils.utils import load_data, plot_training, evalData
+from models.SeqModels import train_model_CV, SeqModel, predict
 
 torch.manual_seed(0)
 random.seed(0)
@@ -58,7 +58,7 @@ if __name__ == '__main__':
     if os.path.exists(output) == False:
       os.system(f'mkdir {output}')
 
-    text, label  = load_data('data/back_to_en.csv')
+    text, label  = load_data(tf)
     data = {'text':text, 'labels':label}
     
     history = train_model_CV(model_name=params.models[lang].split('/')[-1], lang=lang, data=data, splits=splits, epoches=epoches, 
@@ -66,17 +66,19 @@ if __name__ == '__main__':
                   lr = learning_rate,  decay=decay, output=output, multitask=multitask, model_mode=model_mode)
     
     print(f"{bcolors.OKCYAN}{bcolors.BOLD}Training Finished for {lang.upper()} Model{bcolors.ENDC}")
-    plot_training(history[-1], 'lm_{lang}', output, 'acc')
+    # plot_training(history[-1], 'lm_{lang}', output, 'acc') #!TODO fix plotting function for multitasking
     exit(0)
 
   if phase == 'eval':
-    pass
-    text, label  = load_data('data/back_to_en.csv')
-    data = {'text':text} 
-    params = {'mode':model_mode, 'multitask':multitask, 'lang':lang}
-    model = SeqModel(interm_layer_size=interm_layer_size, max_length=max_length, **params)
+    
+    testcase, ids, text, label  = evalData(df, lang)
+    # , {'task1':data['task1'].to_numpy(), 'task2':data['task2'].to_numpy()}
+    data = {'testcase': testcase, 'id': ids, 'text':text} 
+    model_params = {'mode':model_mode, 'multitask':multitask, 'lang':lang}
+    model = SeqModel(interm_size=interm_layer_size, max_length=max_length, **model_params)
 
-    predict(arch, model, data, batch_size, output, images_path, weights_path, multitask=multitask)
-    save_encodings(arch, model, data, batch_size, output, images_path, weights_path)
+    predict(model_name=params.models[lang].split('/')[-1], model=model, data=data, batch_size=batch_size, 
+            output='logs', wp=weights_path,  multitask = multitask)
+            
     print(f"{bcolors.OKCYAN}{bcolors.BOLD}Predictions Saved{bcolors.ENDC}")
   exit(0)

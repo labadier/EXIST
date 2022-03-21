@@ -11,7 +11,8 @@ class Data(Dataset):
   def __init__(self, data, fashion):
 
     self.text = data['text']
-    self.label = data['label']
+    self.label = data['label'] if 'label' in data.keys() else None
+    
     self.fashion = fashion
 
   def __len__(self):
@@ -24,7 +25,7 @@ class Data(Dataset):
 
     ret = {'text': self.text[idx]}
     
-    if len(self) < 4:
+    if self.label is None:
       return ret
     
     if self.fashion == 'singletask':
@@ -88,7 +89,7 @@ class SeqModel(torch.nn.Module):
 
   def forward(self, data, get_encoding=False):
 
-    ids = self.tokenizer(data['text'], return_tensors='pt', truncation=True, padding=True, max_length=self.max_length).to(device=self.device)
+    ids = self.tokenizer(data, return_tensors='pt', truncation=True, padding=True, max_length=self.max_length).to(device=self.device)
 
     X = self.transformer(**ids)[0]
 
@@ -164,7 +165,7 @@ def train_model(model_name, model, trainloader, devloader, epoches, lr, decay, o
       labels = data['labels'].to(model.device)     
       
       optimizer.zero_grad()
-      outputs = model(data)
+      outputs = model(data['text'])
       loss = model.loss_criterion(outputs, labels)
    
       loss.backward()
@@ -195,7 +196,7 @@ def train_model(model_name, model, trainloader, devloader, epoches, lr, decay, o
         torch.cuda.empty_cache() 
         labels = data['labels'].to(model.device) 
 
-        dev_out = model(data)
+        dev_out = model(data['text'])
         if k == 0:
           out = dev_out
           log = labels
@@ -237,11 +238,11 @@ def train_model_CV(model_name, lang, data, splits = 5, epoches = 4, batch_size =
   skf = StratifiedKFold(n_splits=splits, shuffle=True, random_state = 23)
   
   tmplb = data['labels'][:,0]
-  params = {'mode':model_mode, 'multitask':multitask, 'lang':lang}
+  model_params = {'mode':model_mode, 'multitask':multitask, 'lang':lang}
   for i, (train_index, test_index) in enumerate(skf.split(data['text'], tmplb)):  
     
     history.append({'loss': [], 'acc':[], 'dev_loss': [], 'dev_acc': []})
-    model = SeqModel(interm_layer_size, max_length, **params)
+    model = SeqModel(interm_layer_size, max_length, **model_params)
 
     trainloader = DataLoader(Data({'text':data['text'][train_index], 'label': data['labels'][train_index]}, 'singletask' if not multitask else 'multitask'), batch_size=batch_size, shuffle=True, num_workers=4, worker_init_fn=seed_worker)
     devloader = DataLoader(Data({'text':data['text'][test_index], 'label':data['labels'][test_index]}, 'singletask' if not multitask else 'multitask'), batch_size=batch_size, shuffle=True, num_workers=4, worker_init_fn=seed_worker)
@@ -255,14 +256,14 @@ def train_model_CV(model_name, lang, data, splits = 5, epoches = 4, batch_size =
     break
   return history
 
-def predict(model_name, model, data, batch_size, output, images_path, wp,  multitask = False, split = 1):
-  devloader = DataLoader(Data(data), batch_size=batch_size, shuffle=False, num_workers=4, worker_init_fn=seed_worker)
+def predict(model_name, model, data, batch_size, output, wp,  multitask = False):
+  devloader = DataLoader(Data({'text': data['text']}, 'multitask'), batch_size=batch_size, shuffle=False, num_workers=4, worker_init_fn=seed_worker)
   model.eval()
-  model.load(os.path.join(wp, f'{model_name}_split_{split}.pt'))
+  model.load(os.path.join(wp, f'{model_name}_{["stl","mtl"][multitask]}.pt'))
   with torch.no_grad():
     out = None
-    for k, data in enumerate(devloader, 0):   
-      dev_out = model(data)
+    for k, text in enumerate(devloader, 0):   
+      dev_out = model(text['text'])
       if k == 0:
           out = dev_out
       else:  out = torch.cat((out, dev_out), 0)
@@ -272,11 +273,16 @@ def predict(model_name, model, data, batch_size, output, images_path, wp,  multi
 
   if multitask == False:
     y_hat = np.int32(np.round(torch.argmax(torch.nn.functional.softmax(out, dim=-1), axis=-1).cpu().numpy(), decimals=0))
-    dictionary = {'id': np.array([i.split('/')[-1] for i in images_path]),  'misogynous':y_hat}  
-    df = pandas.DataFrame(dictionary) 
-    df.to_csv(os.path.join(output, 'preds.csv'), sep='\t', index=False, header=False)
+    y_hat = ['sexist' if i == 1 else'non-sexist' for i in y_hat ]
+    df = pd.DataFrame({'testcase': data['testcase'], 'id': data['id'],  'task1':y_hat}) 
+    df.to_csv(os.path.join(output, 'task1_LPtower_1.csv'), sep='\t', index=False, header=False)
   else:
-    y_hat = torch.where(sigmoid(out) > 0.5, 1, 0).cpu().numpy()
-    dictionary = {'id': np.array([i.split('/')[-1] for i in images_path]),  'misogynous':y_hat[:,0], 'shaming':y_hat[:,1],	'stereotype':y_hat[:,2], 'objectification':y_hat[:,3],	'violence': y_hat[:,4]}  
-    df = pandas.DataFrame(dictionary) 
-    df.to_csv(os.path.join(output, 'preds.csv'), sep='\t', index=False, header=False)
+    y_hat = ['sexist' if i[0] >= .5 else'non-sexist' for i in out ]
+    df = pd.DataFrame({'testcase': data['testcase'], 'id': data['id'],  'task1':y_hat}) 
+    df.to_csv(os.path.join(output, 'task1_LPtower_1.csv'), sep='\t', index=False, header=False)
+
+    out = out[:,1:]
+    y_hat2 = np.int32(np.round(torch.argmax(torch.nn.functional.softmax(out, dim=-1), axis=-1).cpu().numpy(), decimals=0))
+    y_hat = ['non-sexist' if y_hat[i] == 'non-sexist' else params.columns_exist[y_hat2[i]] for i in range(len(y_hat)) ]
+    df = pd.DataFrame({'testcase': data['testcase'], 'id': data['id'],  'task2':y_hat})  
+    df.to_csv(os.path.join(output, 'task1_LPtower_2.csv'), sep='\t', index=False, header=False)
