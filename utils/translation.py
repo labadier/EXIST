@@ -11,6 +11,7 @@ def TranslatePivotLang(sourceFile = 'data/augmented.csv', outputFile = 'training
 
     perc = 0
     data_frame = pd.read_csv(os.path.join(params.root, sourceFile),dtype=str)
+    data_frame['text'] = data_frame['text'].replace('\n', ' ')
 
     with open(os.path.join(params.root, f'data/{outputFile}_{target_lang}.csv'), 'at', newline='', encoding="utf-8") as csvfile:
       spamwriter = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
@@ -22,9 +23,8 @@ def TranslatePivotLang(sourceFile = 'data/augmented.csv', outputFile = 'training
           perc = (i*100.0)/len(data_frame)
           print(f'\rPivot Language {target_lang}: {perc:.2f}%', end = "")
 
-        data = data_frame[i:i + 20].copy()
-        data['text'] = data['text'].replace('\n', ' ')
-        
+        data = data_frame[i:i + 20].copy() 
+
         if len(set(data['language'].to_list())) == 1 and data.iloc[0]['language'] != target_lang:
           ts = Translator()
           time.sleep(random.random()*3)
@@ -54,7 +54,7 @@ def backTranslation(sourceFile = 'training'):
 
       for pivot in ['en', 'es', 'fr', 'de']:
         data_frame = pd.read_csv(os.path.join(params.root, f'data/{sourceFile}_{pivot}.csv'), dtype=str)
-      
+        data_frame['text'] = data_frame['text'].replace('\n', ' ')
         print(f'{pivot} -> {back_target}: 0%', end = "")
         perc = 0
 
@@ -64,8 +64,7 @@ def backTranslation(sourceFile = 'training'):
             perc = (i*100.0)/len(data_frame)
             print(f'\r{pivot} -> {back_target}: {perc:.2f}%', end = "")
 
-          data = data_frame[i:i + 15].copy()
-          data['text'] = data['text'].replace('\n', ' ')
+          data = data_frame[i:i + 15].copy() 
 
           if pivot != back_target:
             ts = Translator()

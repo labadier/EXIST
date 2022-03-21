@@ -257,6 +257,29 @@ def train_model_CV(model_name, lang, data, splits = 5, epoches = 4, batch_size =
     break
   return history
 
+def mayor_vote(data, y_hat):
+
+  logs = {}
+  testcase = {}
+
+  for i in range(len(data['id'])):
+    if data['id'][i] not in logs.keys():
+      logs[data['id'][i]] = [y_hat[i]]
+      testcase[data['id'][i]] = [data['testcase'][i]]
+    else: 
+      logs[data['id'][i]] += [y_hat[i]]
+      testcase[data['id'][i]] += [data['testcase'][i]]
+  
+  outlog, outtestcase = [], []
+  indexes = list(set(data['id']))
+  for i in indexes:
+    outlog += [max(set(logs[i]), key=logs[i].count)]
+    outtestcase = [max(set(testcase[i]), key=testcase[i].count)]
+    if len(set(testcase[i])) > 1:
+      print('Error Prediction')
+  
+  return indexes, outtestcase, outlog
+
 def predict(model_name, model, data, batch_size, output, wp,  multitask = False):
   devloader = DataLoader(Data({'text': data['text']}, 'multitask'), batch_size=batch_size, shuffle=False, num_workers=4, worker_init_fn=seed_worker)
   model.eval()
@@ -275,15 +298,21 @@ def predict(model_name, model, data, batch_size, output, wp,  multitask = False)
   if multitask == False:
     y_hat = np.int32(np.round(torch.argmax(torch.nn.functional.softmax(out, dim=-1), axis=-1).cpu().numpy(), decimals=0))
     y_hat = ['sexist' if i == 1 else'non-sexist' for i in y_hat ]
-    df = pd.DataFrame({'testcase': data['testcase'], 'id': data['id'],  'task1':y_hat}) 
+    
+    indexes, outtestcase, outlog =  mayor_vote(data, y_hat)
+    df = pd.DataFrame({'testcase': outtestcase, 'id': indexes,  'task1':outlog}) 
     df.to_csv(os.path.join(output, 'task1_LPtower_1.csv'), sep='\t', index=False, header=False)
   else:
     y_hat = ['sexist' if i[0] >= .5 else'non-sexist' for i in out ]
-    df = pd.DataFrame({'testcase': data['testcase'], 'id': data['id'],  'task1':y_hat}) 
+
+    indexes, outtestcase, outlog =  mayor_vote(data, y_hat)
+    df = pd.DataFrame({'testcase': outtestcase, 'id': indexes,  'task1':outlog}) 
     df.to_csv(os.path.join(output, 'task1_LPtower_1.csv'), sep='\t', index=False, header=False)
 
     out = out[:,1:]
     y_hat2 = np.int32(np.round(torch.argmax(torch.nn.functional.softmax(out, dim=-1), axis=-1).cpu().numpy(), decimals=0))
     y_hat = ['non-sexist' if y_hat[i] == 'non-sexist' else params.columns_exist[y_hat2[i]] for i in range(len(y_hat)) ]
-    df = pd.DataFrame({'testcase': data['testcase'], 'id': data['id'],  'task2':y_hat})  
+
+    indexes, outtestcase, outlog =  mayor_vote(data, y_hat)
+    df = pd.DataFrame({'testcase': outtestcase, 'id': indexes,  'task2':outlog}) 
     df.to_csv(os.path.join(output, 'task1_LPtower_2.csv'), sep='\t', index=False, header=False)
