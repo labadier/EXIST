@@ -10,7 +10,7 @@ def TranslatePivotLang(sourceFile = 'data/augmented.csv', outputFile = 'training
     print(f'Pivot Language {target_lang}: 0%', end="")
 
     perc = 0
-    data_frame = pd.read_csv(os.path.join(params.root, sourceFile),dtype=str)
+    data_frame = pd.read_csv(os.path.join(params.root, sourceFile), dtype=str, sep = (';' if outputFile == 'training' else '\t'))
     data_frame['text'] = data_frame['text'].replace('\n', ' ')
 
     with open(os.path.join(params.root, f'data/{outputFile}_{target_lang}.csv'), 'at', newline='', encoding="utf-8") as csvfile:
@@ -21,7 +21,7 @@ def TranslatePivotLang(sourceFile = 'data/augmented.csv', outputFile = 'training
         
         if (i*100.0)/len(data_frame) - perc > 1:
           perc = (i*100.0)/len(data_frame)
-          print(f'\rPivot Language {target_lang}: {perc:.2f}%', end = "")
+          print(f'\rPivot Language {target_lang}: {perc:.2f}%\t', end = "")
 
         data = data_frame[i:i + 20].copy() 
 
@@ -42,7 +42,7 @@ def TranslatePivotLang(sourceFile = 'data/augmented.csv', outputFile = 'training
         for j in data.iterrows():
           spamwriter.writerow(j[1].to_list())
         
-    print(f'\rPivot Language {target_lang}: 100%')
+    print(f'\rPivot Language {target_lang}: 100%\t')
 
 def backTranslation(sourceFile = 'training'):
   
@@ -55,7 +55,7 @@ def backTranslation(sourceFile = 'training'):
       for pivot in ['en', 'es', 'fr', 'de']:
         data_frame = pd.read_csv(os.path.join(params.root, f'data/{sourceFile}_{pivot}.csv'), dtype=str)
         data_frame['text'] = data_frame['text'].replace('\n', ' ')
-        print(f'{pivot} -> {back_target}: 0%', end = "")
+        print(f'{pivot} -> {back_target}: 0%\t', end = "")
         perc = 0
 
         for i in range(0, len(data_frame), 15):
@@ -77,7 +77,7 @@ def backTranslation(sourceFile = 'training'):
           for j in data.iterrows():
             spamwriter.writerow(j[1].to_list())
           
-        print(f'\r{pivot} -> {back_target}: 100%')
+        print(f'\r{pivot} -> {back_target}: 100%\t')
 
 
 def check_params(args=None):

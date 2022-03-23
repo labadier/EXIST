@@ -12,10 +12,12 @@ def load_data(filename):
   labels = data[params.columns[3:]].astype(int).to_numpy()
   return text, labels
 
-def evalData(filename, lang):
+def evalData(filename, lang, pivotlang):
 
-  data = pd.read_csv(filename, dtype=str, sep='\t')
-  data = data[data['language'] == lang]
+  data = pd.read_csv(filename, dtype=str)
+  if pivotlang != 'all':
+    data = data[data['language'] == lang]
+
   testcase = data['test_case'].to_numpy()
   ids = data['id'].to_numpy()
   text = data['text'].to_numpy()

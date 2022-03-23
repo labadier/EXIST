@@ -74,14 +74,14 @@ if __name__ == '__main__':
 
   if phase == 'eval':
     
-    testcase, ids, text, label  = evalData(df, lang)
+    testcase, ids, text, label  = evalData(df, lang, pivotlang=pivotLang)
     # , {'task1':data['task1'].to_numpy(), 'task2':data['task2'].to_numpy()}
     data = {'testcase': testcase, 'id': ids, 'text':text} 
     model_params = {'mode':model_mode, 'multitask':multitask, 'lang':lang}
     model = SeqModel(interm_size=interm_layer_size, max_length=max_length, **model_params)
 
     predict(model_name=params.models[lang].split('/')[-1], model=model, data=data, batch_size=batch_size, 
-            output='logs', wp=weights_path,  multitask = multitask)
+            output='logs', wp=weights_path, pivot_lang=pivotLang, lang=lang, multitask = multitask)
             
     print(f"{bcolors.OKCYAN}{bcolors.BOLD}Predictions Saved{bcolors.ENDC}")
   exit(0)

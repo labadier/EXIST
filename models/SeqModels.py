@@ -103,6 +103,7 @@ class SeqModel(torch.nn.Module):
     return output 
 
   def load(self, path):
+    print(f"{bcolors.OKCYAN}{bcolors.BOLD}Weights Loaded{bcolors.ENDC}") 
     self.load_state_dict(torch.load(path, map_location=self.device))
 
   def save(self, path):
@@ -271,16 +272,16 @@ def mayor_vote(data, y_hat):
       testcase[data['id'][i]] += [data['testcase'][i]]
   
   outlog, outtestcase = [], []
-  indexes = list(set(data['id']))
+  indexes = logs.keys()
   for i in indexes:
     outlog += [max(set(logs[i]), key=logs[i].count)]
-    outtestcase = [max(set(testcase[i]), key=testcase[i].count)]
+    outtestcase += [testcase[i][0]]
     if len(set(testcase[i])) > 1:
       print('Error Prediction')
   
   return indexes, outtestcase, outlog
 
-def predict(model_name, model, data, batch_size, output, wp,  multitask = False):
+def predict(model_name, model, data, batch_size, output, wp, pivot_lang, lang, multitask = False):
   devloader = DataLoader(Data({'text': data['text']}, 'multitask'), batch_size=batch_size, shuffle=False, num_workers=4, worker_init_fn=seed_worker)
   model.eval()
   model.load(os.path.join(wp, f'{model_name}_{["stl","mtl"][multitask]}.pt'))
@@ -301,13 +302,13 @@ def predict(model_name, model, data, batch_size, output, wp,  multitask = False)
     
     indexes, outtestcase, outlog =  mayor_vote(data, y_hat)
     df = pd.DataFrame({'testcase': outtestcase, 'id': indexes,  'task1':outlog}) 
-    df.to_csv(os.path.join(output, 'task1_LPtower_1.csv'), sep='\t', index=False, header=False)
+    df.to_csv(os.path.join(output, f'task1_LPtower_1_p={pivot_lang}_{lang}.csv'), sep='\t', index=False, header=False)
   else:
     y_hat = ['sexist' if i[0] >= .5 else'non-sexist' for i in out ]
 
     indexes, outtestcase, outlog =  mayor_vote(data, y_hat)
     df = pd.DataFrame({'testcase': outtestcase, 'id': indexes,  'task1':outlog}) 
-    df.to_csv(os.path.join(output, 'task1_LPtower_1.csv'), sep='\t', index=False, header=False)
+    df.to_csv(os.path.join(output, f'task1_LPtower_1_p={pivot_lang}_{lang}.csv'), sep='\t', index=False, header=False)
 
     out = out[:,1:]
     y_hat2 = np.int32(np.round(torch.argmax(torch.nn.functional.softmax(out, dim=-1), axis=-1).cpu().numpy(), decimals=0))
@@ -315,4 +316,4 @@ def predict(model_name, model, data, batch_size, output, wp,  multitask = False)
 
     indexes, outtestcase, outlog =  mayor_vote(data, y_hat)
     df = pd.DataFrame({'testcase': outtestcase, 'id': indexes,  'task2':outlog}) 
-    df.to_csv(os.path.join(output, 'task1_LPtower_2.csv'), sep='\t', index=False, header=False)
+    df.to_csv(os.path.join(output, f'task1_LPtower_2_p={pivot_lang}_{lang}.csv'), sep='\t', index=False, header=False)
