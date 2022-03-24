@@ -316,4 +316,4 @@ def predict(model_name, model, data, batch_size, output, wp, pivot_lang, lang, m
 
     indexes, outtestcase, outlog =  mayor_vote(data, y_hat)
     df = pd.DataFrame({'testcase': outtestcase, 'id': indexes,  'task2':outlog}) 
-    df.to_csv(os.path.join(output, f'task1_LPtower_2_p={pivot_lang}_{lang}.csv'), sep='\t', index=False, header=False)
+    df.to_csv(os.path.join(output, f'task2_LPtower_1_p={pivot_lang}_{lang}.csv'), sep='\t', index=False, header=False)
