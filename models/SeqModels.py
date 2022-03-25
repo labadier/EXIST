@@ -57,13 +57,12 @@ class MultiTaskLoss(torch.nn.Module):
 
     def forward(self, outputs, labels):
 
-        o_t1 = self.sigmoid(outputs[:,0]) 
-        loss_t1 = (-(labels[:,0]*torch.log(o_t1) + (1. - labels[:,0])*torch.log(1. - o_t1))).mean()
-        o_t2 = torch.nn.functional.softmax(outputs[:,1:], dim=-1)
-        # print()
-        loss_t2 = ((-(labels[:,1:]*torch.log(o_t2)).sum(axis=-1))*torch.where(labels[:,1] == -1, 0, 1)).mean()
-        # outputs = (-(labels*torch.log(outputs) + (1. - labels)*torch.log(1. - outputs))*torch.where(labels == -1, 0, 1)).sum(axis=-1)
-        return loss_t1 + loss_t2
+      o_t1 = self.sigmoid(outputs[:,0]) 
+      loss_t1 = (-(labels[:,0]*torch.log(o_t1) + (1. - labels[:,0])*torch.log(1. - o_t1))).mean()
+      o_t2 = torch.nn.functional.softmax(outputs[:,1:], dim=-1)
+      # print()
+      loss_t2 = ((-(labels[:,1:]*torch.log(o_t2)).sum(axis=-1))*torch.where(labels[:,1] == -1, 0, 1)).mean()
+      return (loss_t1 + loss_t2)/2.0
 
 class SeqModel(torch.nn.Module):
 
@@ -147,7 +146,7 @@ def compute_acc(ground_truth, predictions, multitask):
   o_t2 = torch.argmax(torch.nn.functional.softmax(predictions[:,1:].type(torch.float), dim=-1), dim=-1)
   
   acc_t1 = ((1.0*(o_t1 == ground_truth[:,0])).sum()/ground_truth.shape[0]).cpu().numpy() 
-  acc_t2 = ((1.0*(o_t1 == torch.argmax(ground_truth[:,1:], dim=-1))).sum()/ground_truth.shape[0]).cpu().numpy()
+  acc_t2 = ((1.0*(o_t2 == torch.argmax(ground_truth[:,1:], dim=-1))*torch.where(ground_truth[:,1]==-1, 0, 1)).sum()/(ground_truth.shape[0] - torch.sum(torch.where(ground_truth[:,1]==-1, 1, 0)))).cpu().numpy()
   return np.array([acc_t1, acc_t2])
 
 def train_model(model_name, model, trainloader, devloader, epoches, lr, decay, output, split=1, multitask=False):
