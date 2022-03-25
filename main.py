@@ -69,7 +69,7 @@ if __name__ == '__main__':
                   lr = learning_rate,  decay=decay, output=output, multitask=multitask, model_mode=model_mode)
     
     print(f"{bcolors.OKCYAN}{bcolors.BOLD}Training Finished for {lang.upper()} Model{bcolors.ENDC}")
-    # plot_training(history[-1], 'lm_{lang}', output, 'acc') #!TODO fix plotting function for multitasking
+    plot_training(history[-1], f'lm_{lang}', output, 'loss') #!TODO fix plotting function for multitasking
     exit(0)
 
   if phase == 'eval':
