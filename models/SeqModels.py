@@ -49,8 +49,9 @@ def seed_worker(worker_id):
   random.seed(worker_seed)
 
 class MultiTaskLoss(torch.nn.Module):
-    def __init__(self):
+    def __init__(self, task):
         super(MultiTaskLoss, self).__init__()
+        self.task = task
 
     def sigmoid(self, z ):
       return 1./(1 + torch.exp(-z))
@@ -62,7 +63,7 @@ class MultiTaskLoss(torch.nn.Module):
       o_t2 = torch.nn.functional.softmax(outputs[:,1:], dim=-1)
       # print()
       loss_t2 = ((-(labels[:,1:]*torch.log(o_t2)).sum(axis=-1))*torch.where(labels[:,1] == -1, 0, 1)).mean()
-      return (loss_t1 + loss_t2)/2.0
+      return (loss_t1*(self.task != 2) + loss_t2)/2.0
 
 class SeqModel(torch.nn.Module):
 
@@ -72,6 +73,7 @@ class SeqModel(torch.nn.Module):
 		
     self.mode = kwargs['mode']
     self.best_acc = None
+    self.task = kwargs['task']
     self.lang = kwargs['lang']
     self.max_length = max_length
     self.interm_neurons = interm_size
@@ -82,7 +84,7 @@ class SeqModel(torch.nn.Module):
     
     if kwargs['multitask'] == True:
       self.classifier = torch.nn.Linear(in_features=self.interm_neurons>>1, out_features=6)
-      self.loss_criterion = MultiTaskLoss()
+      self.loss_criterion = MultiTaskLoss(self.task)
     else: 
       self.classifier = torch.nn.Linear(in_features=self.interm_neurons>>1, out_features=2)
       self.loss_criterion = torch.nn.CrossEntropyLoss()
@@ -238,13 +240,14 @@ def train_model(model_name, model, trainloader, devloader, epoches, lr, decay, o
 
 
 def train_model_CV(model_name, lang, data, splits = 5, epoches = 4, batch_size = 8, max_length = 120, 
-                    interm_layer_size = 64, lr = 1e-5,  decay=2e-5, output='logs', multitask=False, model_mode='offline'):
+                    interm_layer_size = 64, lr = 1e-5,  decay=2e-5, output='logs', multitask=False,
+                    model_mode='offline', task = 2):
 
   history = []
   skf = StratifiedKFold(n_splits=splits, shuffle=True, random_state = 23)
   
   tmplb = data['labels'][:,0]
-  model_params = {'mode':model_mode, 'multitask':multitask, 'lang':lang}
+  model_params = {'mode':model_mode, 'multitask':multitask, 'lang':lang,  'task':task}
   for i, (train_index, test_index) in enumerate(skf.split(data['text'], tmplb)):  
     
     history.append({'loss': [], 'acc':[], 'dev_loss': [], 'dev_acc': []})
@@ -302,22 +305,27 @@ def predict(model_name, model, data, batch_size, output, wp, pivot_lang, lang, m
 
   if multitask == False:
     y_hat = np.int32(np.round(torch.argmax(torch.nn.functional.softmax(out, dim=-1), axis=-1).cpu().numpy(), decimals=0))
+    odds = torch.max(1./(1 + torch.exp(out)), dim=-1).values.cpu().numpy()
     y_hat = ['sexist' if i == 1 else'non-sexist' for i in y_hat ]
     
-    indexes, outtestcase, outlog =  mayor_vote(data, y_hat)
-    df = pd.DataFrame({'testcase': outtestcase, 'id': indexes,  'task1':outlog}) 
+    # indexes, outtestcase, outlog =  mayor_vote(data, y_hat)
+    df = pd.DataFrame({'testcase': data['testcase'], 'id': data['id'],  'task1':y_hat, 'task1odds':odds}) 
+   
     df.to_csv(os.path.join(output, f'task1_LPtower_1_p={pivot_lang}_{lang}.csv'), sep='\t', index=False, header=False)
   else:
-    y_hat = ['sexist' if i[0] >= .5 else'non-sexist' for i in out ]
 
-    indexes, outtestcase, outlog =  mayor_vote(data, y_hat)
-    df = pd.DataFrame({'testcase': outtestcase, 'id': indexes,  'task1':outlog}) 
+    y_hat = ['sexist' if i[0] >= .5 else'non-sexist' for i in out.cpu() ]
+    odds = [ 1./(1 + np.exp(i[0])) for i in out.cpu().numpy() ]
+
+    # indexes, outtestcase, outlog =  mayor_vote(data, y_hat)
+    df = pd.DataFrame({'testcase': data['testcase'], 'id': data['id'],  'task1':y_hat, 'task1odds':odds}) 
     df.to_csv(os.path.join(output, f'task1_LPtower_1_p={pivot_lang}_{lang}.csv'), sep='\t', index=False, header=False)
 
     out = out[:,1:]
     y_hat2 = np.int32(np.round(torch.argmax(torch.nn.functional.softmax(out, dim=-1), axis=-1).cpu().numpy(), decimals=0))
+    odds = torch.nn.functional.softmax(out, dim=-1).cpu().numpy()
     y_hat = ['non-sexist' if y_hat[i] == 'non-sexist' else params.columns_exist[y_hat2[i]] for i in range(len(y_hat)) ]
 
-    indexes, outtestcase, outlog =  mayor_vote(data, y_hat)
-    df = pd.DataFrame({'testcase': outtestcase, 'id': indexes,  'task2':outlog}) 
+    # indexes, outtestcase, outlog =  mayor_vote(data, y_hat)
+    df = pd.DataFrame({'testcase': data['testcase'], 'id': data['id'], 'task2':y_hat} | {f'task2odds{i}':odds[:,i] for i in range(odds.shape[1])})
     df.to_csv(os.path.join(output, f'task2_LPtower_1_p={pivot_lang}_{lang}.csv'), sep='\t', index=False, header=False)

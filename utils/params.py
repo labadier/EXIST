@@ -3,7 +3,8 @@ class params:
 
   root = ''
   models = {'fr': 'flaubert/flaubert_base_cased', 'en': 'vinai/bertweet-base',
-            'es':'finiteautomata/beto-sentiment-analysis', 'de':'oliverguhr/german-sentiment-bert'}
+            'es':'finiteautomata/beto-sentiment-analysis', 'de':'oliverguhr/german-sentiment-bert',
+            'it': 'dbmdz/bert-base-italian-uncased', 'pt':'neuralmind/bert-base-portuguese-cased'}
 
   columns = ['campain', 'language', 'text','sexism','ideological','stereotype','object','violence','mysogeny']
 

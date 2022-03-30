@@ -47,15 +47,27 @@ def plot_training(history, model, output, measure='loss'):
 
     plt.savefig(os.path.join(output, f'train_history_{model}.png'))
 
-def mergePredsByLanguage(submit):
+def mergePredsByLanguage(submit = 1) -> None:
 
+  ''' 
+    
+    Merge the predition of english and spanish models for back transalted trategie of prediction
+  
+  '''
   for task in range(1, 3, 1):
     en = pd.read_csv(f'logs/task{task}_LPtower_{submit}_p=all_en.csv', sep='\t',  dtype=str, header=None)
     es = pd.read_csv(f'logs/task{task}_LPtower_{submit}_p=all_es.csv', sep='\t',  dtype=str, header=None)
     pd.concat([en, es]).to_csv(f'logs/task{task}_LPtower_{submit}.csv', sep='\t', index=False, header=False)
 
 
-def ensembleMultilingualData(submit):
+def ensembleMultilingualData(submit = 1) -> None:
+
+
+  ''' 
+    
+   Make Major voting with ensemble of languages
+  
+  '''
 
   for task in range(1, 3, 1):
     df = []
@@ -72,10 +84,10 @@ def ensembleMultilingualData(submit):
           print('Wrong arrangemet')
         spamwriter.writerow([df[0].iloc[i][0], df[0].iloc[i][1], max(set(ans), key=ans.count)])
 
-def evaluat(submit, task):
+def evaluate(input, task):
 
   labels = ['non-sexist', 'sexist'] if task == 1 else ['non-sexist'] + params.columns_exist
-  file = pd.read_csv(f'logs/task{task}_LPtower_{submit}_ensemble.csv', sep='\t',  dtype=str, header=None).sort_values(by=[1])
+  file = pd.read_csv(input, sep='\t',  dtype=str, header=None).sort_values(by=[1])
   gold = pd.read_csv(f'data/EXIST/training/EXIST2021_test.tsv', sep='\t',  dtype=str, usecols=['id', f'task{task}']).sort_values(by=['id'])
 
   y = []

@@ -27,6 +27,7 @@ def check_params(args=None):
   parser.add_argument('-df', metavar='test_file', help='Data Anotation Files for Testing')
   parser.add_argument('-wp', metavar='weigths_path', default="logs", help='Saved Weights Path')
   parser.add_argument('-mtl', metavar='multitask', default=params.MULTITASK, help='Multitask Leatning')
+  parser.add_argument('-t', metavar='task', default='1', help='Multitask Leatning')
 
   return parser.parse_args(args)
 
@@ -45,6 +46,8 @@ if __name__ == '__main__':
   phase = parameters.phase
   output = parameters.output
   model_mode = parameters.wm
+
+  t = parameters.t
   
   tf = parameters.tf
   df=parameters.df
@@ -66,7 +69,7 @@ if __name__ == '__main__':
     
     history = train_model_CV(model_name=params.models[lang].split('/')[-1], lang=lang, data=data, splits=splits, epoches=epoches, 
                   batch_size=batch_size, max_length=max_length, interm_layer_size = interm_layer_size, 
-                  lr = learning_rate,  decay=decay, output=output, multitask=multitask, model_mode=model_mode)
+                  lr = learning_rate,  decay=decay, output=output, multitask=multitask, model_mode=model_mode, task=t)
     
     print(f"{bcolors.OKCYAN}{bcolors.BOLD}Training Finished for {lang.upper()} Model{bcolors.ENDC}")
     plot_training(history[-1], f'lm_{lang}', output, 'loss') #!TODO fix plotting function for multitasking
@@ -77,7 +80,7 @@ if __name__ == '__main__':
     testcase, ids, text, label  = evalData(df, lang, pivotlang=pivotLang)
     # , {'task1':data['task1'].to_numpy(), 'task2':data['task2'].to_numpy()}
     data = {'testcase': testcase, 'id': ids, 'text':text} 
-    model_params = {'mode':model_mode, 'multitask':multitask, 'lang':lang}
+    model_params = {'mode':model_mode, 'multitask':multitask, 'lang':lang, 'task':t}
     model = SeqModel(interm_size=interm_layer_size, max_length=max_length, **model_params)
 
     predict(model_name=params.models[lang].split('/')[-1], model=model, data=data, batch_size=batch_size, 

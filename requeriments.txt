@@ -1,5 +1,5 @@
 torch
-transfromers
+transformers
 googletrans==3.1.0a0
 matplotlib
 sklearn

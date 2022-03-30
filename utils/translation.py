@@ -1,11 +1,12 @@
 #%%
+from pyexpat import model
 from googletrans import Translator 
 import pandas as pd
 import os, csv, time, random, argparse, sys
 from params import params
 
 def TranslatePivotLang(sourceFile = 'data/augmented.csv', outputFile = 'training'):
-  for target_lang in ['en', 'es', 'fr', 'de']:
+  for target_lang in params.models.keys():
 
     print(f'Pivot Language {target_lang}: 0%', end="")
 
@@ -52,7 +53,7 @@ def backTranslation(sourceFile = 'training'):
       spamwriter = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
       spamwriter.writerow(list(data_frame.columns))
 
-      for pivot in ['en', 'es', 'fr', 'de']:
+      for pivot in params.models.keys():
         data_frame = pd.read_csv(os.path.join(params.root, f'data/{sourceFile}_{pivot}.csv'), dtype=str)
         data_frame['text'] = data_frame['text'].replace('\n', ' ')
         print(f'{pivot} -> {back_target}: 0%\t', end = "")
