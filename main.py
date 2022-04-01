@@ -76,10 +76,21 @@ if __name__ == '__main__':
     exit(0)
 
   if phase == 'eval':
-    
-    testcase, ids, text, label  = evalData(df, lang, pivotlang=pivotLang)
-    # , {'task1':data['task1'].to_numpy(), 'task2':data['task2'].to_numpy()}
-    data = {'testcase': testcase, 'id': ids, 'text':text} 
+
+    if epoches == -1:
+      import pandas as pd
+
+      data = pd.read_csv('data/augmented.csv', dtype=str)
+      data = [data['campain'] != 'HAHACKATHON']
+      text = data['text'].to_numpy()
+        
+      labels = data[params.columns[3:]].astype(int).to_numpy()  
+      testcase, ids, text, label  = evalData(df, lang, pivotlang=pivotLang)
+      data = {'testcase': data['campain'], 'id': data['language'], 'text':text} 
+    else:
+      testcase, ids, text, label  = evalData(df, lang, pivotlang=pivotLang)
+      data = {'testcase': testcase, 'id': ids, 'text':text} 
+
     model_params = {'mode':model_mode, 'multitask':multitask, 'lang':lang, 'task':t}
     model = SeqModel(interm_size=interm_layer_size, max_length=max_length, **model_params)
 

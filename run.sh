@@ -25,7 +25,7 @@ python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l fr -lp fr -df 
 python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l de -lp de -df data/test_de.csv -mtl mtl
 
 python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l pt -lp pt -df data/test_pt.csv -mtl mtl
-python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l de -lp it -df data/test_it.csv -mtl mtl
+python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l it -lp it -df data/test_it.csv -mtl mtl
 
 zip mtl_data.zip logs/*.csv
 
@@ -49,7 +49,7 @@ python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l fr -lp fr -df 
 python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l de -lp de -df data/test_de.csv -mtl stl
 
 python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l pt -lp pt -df data/test_pt.csv -mtl stl
-python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l de -lp it -df data/test_it.csv -mtl stl
+python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l it -lp it -df data/test_it.csv -mtl stl
 
 
 zip stl_t=1_data.zip logs/*.csv

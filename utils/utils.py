@@ -60,22 +60,22 @@ def mergePredsByLanguage(submit = 1) -> None:
     pd.concat([en, es]).to_csv(f'logs/task{task}_LPtower_{submit}.csv', sep='\t', index=False, header=False)
 
 
-def ensembleMultilingualData(submit = 1) -> None:
+def MajorityVote(submit = 1) -> None:
 
 
   ''' 
     
-   Make Major voting with ensemble of languages
+   Make Majority voting with ensemble of languages
   
   '''
 
   for task in range(1, 3, 1):
     df = []
-    for i in ['en', 'es', 'de', 'fr']:
+    for i in ['en', 'es', 'de', 'fr', 'pt']:
       df += [pd.read_csv(f'logs/task{task}_LPtower_{submit}_p={i}_{i}.csv', sep='\t',  dtype=str, header=None)]
       df[-1] = df[-1].sort_values(by=[1])
 
-    with open(f'logs/task{task}_LPtower_{submit}_ensemble.csv', 'wt', newline='', encoding="utf-8") as csvfile:
+    with open(f'logs/task{task}_LPtower_{submit}_ensemble_major.csv', 'wt', newline='', encoding="utf-8") as csvfile:
       spamwriter = csv.writer(csvfile, delimiter='\t', quotechar='"', quoting=csv.QUOTE_MINIMAL)
 
       for i in range(len(df[0])):
@@ -84,7 +84,85 @@ def ensembleMultilingualData(submit = 1) -> None:
           print('Wrong arrangemet')
         spamwriter.writerow([df[0].iloc[i][0], df[0].iloc[i][1], max(set(ans), key=ans.count)])
 
+    df_agumentedP = pd.read_csv(f'logs/task{task}_LPtower_{submit}.csv', sep='\t',  dtype=str, header=None)
+
+    logs = {}
+    testcase = {}
+
+    for i in range(len(df_agumentedP[0])):
+      if df_agumentedP[1][i] not in logs.keys():
+        logs[df_agumentedP[1][i]] = [df_agumentedP[2][i]]
+        testcase[df_agumentedP[1][i]] = [df_agumentedP[0][i]]
+      else: 
+        logs[df_agumentedP[1][i]] += [df_agumentedP[2][i]]
+        testcase[df_agumentedP[1][i]] += [df_agumentedP[0][i]]
+      
+    with open(f'logs/task{task}_LPtower_{submit}_major.csv', 'wt', newline='', encoding="utf-8") as csvfile:
+      spamwriter = csv.writer(csvfile, delimiter='\t', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+
+      for i in logs.keys():
+
+        outlog = max(set(logs[i]), key=logs[i].count)
+        if len(set(testcase[i])) > 1:
+          print('Wrong arrangemet')
+        outtestcase = testcase[i][0]
+        spamwriter.writerow([outtestcase, i, outlog])
+
+def ProbabilitiesAnalysis(trainingFile =  'data/augmented.csv', submit = 1) -> None:
+
+
+  ''' 
+    
+   Make ML voting with ensemble of languages Probabilities
+  
+  '''
+
+  trainingData = pd.read_csv(trainingFile,dtype=str, header=None)
+  trainingData = trainingData[trainingData['campain'] != 'HAHACKATHON']
+
+  fetures = []
+
+  for task in range(1, 3, 1):
+    df = []
+    for i in ['en', 'es', 'de', 'fr', 'pt']:
+      df += [pd.read_csv(f'logs/task{task}_LPtower_{submit}_p={i}_{i}.csv', sep='\t',  dtype=str, header=None)]
+      df[-1] = df[-1].sort_values(by=[1])
+
+    with open(f'logs/task{task}_LPtower_{submit}_ensemble_major.csv', 'wt', newline='', encoding="utf-8") as csvfile:
+      spamwriter = csv.writer(csvfile, delimiter='\t', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+
+      for i in range(len(df[0])):
+        ans = [j.iloc[i][2] for j in df]
+        if len(set([j.iloc[i][1] for j in df])) > 1:
+          print('Wrong arrangemet')
+        spamwriter.writerow([df[0].iloc[i][0], df[0].iloc[i][1], max(set(ans), key=ans.count)])
+
+    df_agumentedP = pd.read_csv(f'logs/task{task}_LPtower_{submit}.csv', sep='\t',  dtype=str, header=None)
+
+    logs = {}
+    testcase = {}
+
+    for i in range(len(df_agumentedP[0])):
+      if df_agumentedP[1][i] not in logs.keys():
+        logs[df_agumentedP[1][i]] = [df_agumentedP[2][i]]
+        testcase[df_agumentedP[1][i]] = [df_agumentedP[0][i]]
+      else: 
+        logs[df_agumentedP[1][i]] += [df_agumentedP[2][i]]
+        testcase[df_agumentedP[1][i]] += [df_agumentedP[0][i]]
+      
+    with open(f'logs/task{task}_LPtower_{submit}_major.csv', 'wt', newline='', encoding="utf-8") as csvfile:
+      spamwriter = csv.writer(csvfile, delimiter='\t', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+
+      for i in logs.keys():
+
+        outlog = max(set(logs[i]), key=logs[i].count)
+        if len(set(testcase[i])) > 1:
+          print('Wrong arrangemet')
+        outtestcase = testcase[i][0]
+        spamwriter.writerow([outtestcase, i, outlog])
+
 def evaluate(input, task):
+
 
   labels = ['non-sexist', 'sexist'] if task == 1 else ['non-sexist'] + params.columns_exist
   file = pd.read_csv(input, sep='\t',  dtype=str, header=None).sort_values(by=[1])
@@ -98,4 +176,5 @@ def evaluate(input, task):
     y_hat += [labels.index(file.iloc[i][2])]
     y += [labels.index(gold.iloc[i][f'task{task}'])]
 
+  
   print(f"acc: {accuracy_score(y, y_hat)}\nf1: {f1_score(y, y_hat, average='macro')}")

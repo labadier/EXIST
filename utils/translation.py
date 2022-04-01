@@ -11,10 +11,10 @@ def TranslatePivotLang(sourceFile = 'data/augmented.csv', outputFile = 'training
     print(f'Pivot Language {target_lang}: 0%', end="")
 
     perc = 0
-    data_frame = pd.read_csv(os.path.join(params.root, sourceFile), dtype=str, sep = (';' if outputFile == 'training' else '\t'))
+    data_frame = pd.read_csv(os.path.join(params.root, sourceFile), dtype=str, sep = (',' if outputFile == 'training' else '\t'))
     data_frame['text'] = data_frame['text'].replace('\n', ' ')
 
-    with open(os.path.join(params.root, f'data/{outputFile}_{target_lang}.csv'), 'at', newline='', encoding="utf-8") as csvfile:
+    with open(os.path.join(params.root, f'data/{outputFile}_{target_lang}.csv'), 'wt', newline='', encoding="utf-8") as csvfile:
       spamwriter = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
       spamwriter.writerow(list(data_frame.columns))
       
