@@ -3,5 +3,4 @@ __pycache__
 logs
 vinai
 generated
-data/*csv
-debug.py
+data/*csv 

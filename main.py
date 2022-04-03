@@ -81,11 +81,9 @@ if __name__ == '__main__':
       import pandas as pd
 
       data = pd.read_csv('data/augmented.csv', dtype=str)
-      data = [data['campain'] != 'HAHACKATHON']
+      data = data[data['campain'] != 'HAHACKATHON']
       text = data['text'].to_numpy()
         
-      labels = data[params.columns[3:]].astype(int).to_numpy()  
-      testcase, ids, text, label  = evalData(df, lang, pivotlang=pivotLang)
       data = {'testcase': data['campain'], 'id': data['language'], 'text':text} 
     else:
       testcase, ids, text, label  = evalData(df, lang, pivotlang=pivotLang)

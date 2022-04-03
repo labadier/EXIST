@@ -222,7 +222,7 @@ def train_model(model_name, model, trainloader, devloader, epoches, lr, decay, o
 
     measure = dev_acc
     if multitask == True:
-      measure = dev_acc[0]
+      measure = dev_acc[1]
 
     if model.best_acc is None or model.best_acc < measure:
       model.save(os.path.join(output, f'{model_name}_{["stl","mtl"][multitask]}.pt'))
