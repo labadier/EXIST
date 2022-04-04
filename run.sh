@@ -80,13 +80,13 @@
 
 
 # #evaluation with prediction aumentation by paraprhasis (major voting)
-python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l en -lp all -df data/EXIST\ 2022\ Dataset/test/EXIST2022_test.tsv -mtl mtl
-python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l es -lp all -df data/EXIST\ 2022\ Dataset/test/EXIST2022_test.tsv -mtl mtl
+python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l en -lp all -df data/EXIST\ 2022\ Dataset/test/EXIST2022_test.tsv -mtl mtl -wp logs/mtl
+python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l es -lp all -df data/EXIST\ 2022\ Dataset/test/EXIST2022_test.tsv -mtl mtl -wp logs/mtl
 
 # #evaluation with prediction individual by language model variation 
-python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l en -lp en -df data/EXIST\ 2022\ Dataset/test/EXIST2022_test.tsv -mtl mtl
-python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l es -lp es -df data/EXIST\ 2022\ Dataset/test/EXIST2022_test.tsv -mtl mtl
-python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l fr -lp fr -df data/EXIST\ 2022\ Dataset/test/EXIST2022_test.tsv -mtl mtl
-python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l de -lp de -df data/EXIST\ 2022\ Dataset/test/EXIST2022_test.tsv -mtl mtl
-python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l pt -lp pt -df data/EXIST\ 2022\ Dataset/test/EXIST2022_test.tsv -mtl mtl
-python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l it -lp it -df data/EXIST\ 2022\ Dataset/test/EXIST2022_test.tsv -mtl mtl
+python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l en -lp en -df data/EXIST\ 2022\ Dataset/test/EXIST2022_test.tsv -mtl mtl -wp logs/mtl
+python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l es -lp es -df data/EXIST\ 2022\ Dataset/test/EXIST2022_test.tsv -mtl mtl -wp logs/mtl
+python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l fr -lp fr -df data/EXIST\ 2022\ Dataset/test/EXIST2022_test.tsv -mtl mtl -wp logs/mtl
+python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l de -lp de -df data/EXIST\ 2022\ Dataset/test/EXIST2022_test.tsv -mtl mtl -wp logs/mtl
+python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l pt -lp pt -df data/EXIST\ 2022\ Dataset/test/EXIST2022_test.tsv -mtl mtl -wp logs/mtl
+python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l it -lp it -df data/EXIST\ 2022\ Dataset/test/EXIST2022_test.tsv -mtl mtl -wp logs/mtl

@@ -16,16 +16,16 @@ def load_data(filename):
 
 def evalData(filename, lang, pivotlang):
 
-  data = pd.read_csv(filename, dtype=str)
+  data = pd.read_csv(filename, dtype=str, sep ='\t')
   if pivotlang == 'all':
     data = data[data['language'] == lang]
 
-  testcase = data['test_case'].to_numpy()
+  testcase = data['text_case'].to_numpy()
   ids = data['id'].to_numpy()
   text = data['text'].to_numpy()
   if 'task1' in data.keys():
     return testcase, ids, text, {'task1':data['task1'].to_numpy(), 'task2':data['task2'].to_numpy()}
-  else: return testcase, ids, text
+  else: return testcase, ids, text, None
     
 
 def plot_training(history, model, output, measure='loss'):
