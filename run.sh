@@ -57,22 +57,36 @@
 
 
 
-python main.py -phase train -lr 1e-5 -decay 1e-5 -wm online -interm_layer 64 -epoches 12 -bs 64 -l en -tf data/training_backTo_en.csv -mtl mtl -t 2
-python main.py -phase train -lr 1e-5 -decay 1e-5 -wm online -interm_layer 64 -epoches 12 -bs 64 -l es -tf data/training_backTo_es.csv -mtl mtl -t 2
-python main.py -phase train -lr 1e-5 -decay 1e-5 -wm online -interm_layer 64 -epoches 12 -bs 64 -l de -tf data/training_de.csv -mtl mtl -t 2
-python main.py -phase train -lr 1e-5 -decay 1e-5 -wm online -interm_layer 64 -epoches 12 -bs 64 -l fr -tf data/training_fr.csv -mtl mtl -t 2
-python main.py -phase train -lr 1e-5 -decay 1e-5 -wm online -interm_layer 64 -epoches 12 -bs 64 -l it -tf data/training_it.csv -mtl mtl -t 2
-python main.py -phase train -lr 1e-5 -decay 1e-5 -wm online -interm_layer 64 -epoches 12 -bs 64 -l pt -tf data/training_pt.csv -mtl mtl -t 2
+# python main.py -phase train -lr 1e-5 -decay 1e-5 -wm online -interm_layer 64 -epoches 12 -bs 64 -l en -tf data/training_backTo_en.csv -mtl mtl -t 2
+# python main.py -phase train -lr 1e-5 -decay 1e-5 -wm online -interm_layer 64 -epoches 12 -bs 64 -l es -tf data/training_backTo_es.csv -mtl mtl -t 2
+# python main.py -phase train -lr 1e-5 -decay 1e-5 -wm online -interm_layer 64 -epoches 12 -bs 64 -l de -tf data/training_de.csv -mtl mtl -t 2
+# python main.py -phase train -lr 1e-5 -decay 1e-5 -wm online -interm_layer 64 -epoches 12 -bs 64 -l fr -tf data/training_fr.csv -mtl mtl -t 2
+# python main.py -phase train -lr 1e-5 -decay 1e-5 -wm online -interm_layer 64 -epoches 12 -bs 64 -l it -tf data/training_it.csv -mtl mtl -t 2
+# python main.py -phase train -lr 1e-5 -decay 1e-5 -wm online -interm_layer 64 -epoches 12 -bs 64 -l pt -tf data/training_pt.csv -mtl mtl -t 2
 
-#evaluation with prediction aumentation by paraprhasis (major voting)
-python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l en -lp all -df data/test_backTo_en.csv -mtl mtl
-python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l es -lp all -df data/test_backTo_es.csv -mtl mtl
+# #evaluation with prediction aumentation by paraprhasis (major voting)
+# python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l en -lp all -df data/test_backTo_en.csv -mtl mtl
+# python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l es -lp all -df data/test_backTo_es.csv -mtl mtl
 
-#evaluation with prediction individual by language model variation 
-python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l en -lp en -df data/test_en.csv -mtl mtl
-python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l es -lp es -df data/test_es.csv -mtl mtl
-python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l fr -lp fr -df data/test_fr.csv -mtl mtl
-python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l de -lp de -df data/test_de.csv -mtl mtl
+# #evaluation with prediction individual by language model variation 
+# python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l en -lp en -df data/test_en.csv -mtl mtl
+# python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l es -lp es -df data/test_es.csv -mtl mtl
+# python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l fr -lp fr -df data/test_fr.csv -mtl mtl
+# python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l de -lp de -df data/test_de.csv -mtl mtl
 
-python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l pt -lp pt -df data/test_pt.csv -mtl mtl
-python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l it -lp it -df data/test_it.csv -mtl mtl
+# python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l pt -lp pt -df data/test_pt.csv -mtl mtl
+# python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l it -lp it -df data/test_it.csv -mtl mtl
+
+
+
+# #evaluation with prediction aumentation by paraprhasis (major voting)
+python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l en -lp all -df data/EXIST\ 2022\ Dataset/test/EXIST2022_test.tsv -mtl mtl
+python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l es -lp all -df data/EXIST\ 2022\ Dataset/test/EXIST2022_test.tsv -mtl mtl
+
+# #evaluation with prediction individual by language model variation 
+python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l en -lp en -df data/EXIST\ 2022\ Dataset/test/EXIST2022_test.tsv -mtl mtl
+python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l es -lp es -df data/EXIST\ 2022\ Dataset/test/EXIST2022_test.tsv -mtl mtl
+python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l fr -lp fr -df data/EXIST\ 2022\ Dataset/test/EXIST2022_test.tsv -mtl mtl
+python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l de -lp de -df data/EXIST\ 2022\ Dataset/test/EXIST2022_test.tsv -mtl mtl
+python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l pt -lp pt -df data/EXIST\ 2022\ Dataset/test/EXIST2022_test.tsv -mtl mtl
+python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l it -lp it -df data/EXIST\ 2022\ Dataset/test/EXIST2022_test.tsv -mtl mtl

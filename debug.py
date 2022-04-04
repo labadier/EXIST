@@ -5,8 +5,8 @@ import pandas as pd, csv
 from utils.params import params
 from utils.utils import evaluate, MajorityVote, mergePredsByLanguage, ProbabilitiesAnalysis
 
-mode = 'stl'
-tasks = [1]
+mode = 'stl2'
+tasks = [2]
 # Evaluate Individual Language
 
 print('*'*5 + " Individual Languages " + '*'*5)
