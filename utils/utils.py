@@ -56,12 +56,12 @@ def mergePredsByLanguage(mode, tasks, submit = 1) -> None:
   
   '''
   for task in tasks:
-    en = pd.read_csv(f'logs/{mode}/task{task}_LPtower_{submit}_p=all_en.csv', sep='\t',  dtype=str, header=None)
-    es = pd.read_csv(f'logs/{mode}/task{task}_LPtower_{submit}_p=all_es.csv', sep='\t',  dtype=str, header=None)
+    en = pd.read_csv(f'logs/{mode}/task{task}_LPtower_{submit}_p=all_en.csv', sep='\t',  dtype=str, header=None, usecols=[0, 1, 2])
+    es = pd.read_csv(f'logs/{mode}/task{task}_LPtower_{submit}_p=all_es.csv', sep='\t',  dtype=str, header=None, usecols=[0, 1, 2])
     pd.concat([en, es]).to_csv(f'logs/{mode}/task{task}_LPtower_{submit}.csv', sep='\t', index=False, header=False)
 
 
-def MajorityVote(mode, tasks, submit = 1) -> None:
+def MajorityVote(mode, tasks, languages, submit = 1) -> None:
 
 
   ''' 
@@ -71,7 +71,7 @@ def MajorityVote(mode, tasks, submit = 1) -> None:
 
   for task in tasks:
     df = []
-    for i in ['en', 'es', 'de', 'fr', 'pt', 'it']:
+    for i in languages:
       df += [pd.read_csv(f'logs/{mode}/task{task}_LPtower_{submit}_p={i}_{i}.csv', sep='\t',  dtype=str, header=None)]
       df[-1] = df[-1].sort_values(by=[1])
 
@@ -108,10 +108,10 @@ def MajorityVote(mode, tasks, submit = 1) -> None:
         outtestcase = testcase[i][0]
         spamwriter.writerow([outtestcase, i, outlog])
 
-def LoadProbabilitiesData(file, task, sort=False):
+def LoadProbabilitiesData(file, task, languages, sort=False):
 
   features = None
-  for i in ['en', 'es', 'fr', 'pt', 'it']:
+  for i in languages:
     trainingData = pd.read_csv(file + f'{i}_{i}.csv', sep='\t', header=None)
     if sort:
       trainingData = trainingData.sort_values(by=[1])
@@ -124,7 +124,7 @@ def LoadProbabilitiesData(file, task, sort=False):
 
   return features
 
-def ProbabilitiesAnalysis(mode, tasks, submit = 1) -> None:
+def ProbabilitiesAnalysis(mode, tasks, languages, submit = 1) -> None:
 
 
   ''' 
@@ -134,23 +134,24 @@ def ProbabilitiesAnalysis(mode, tasks, submit = 1) -> None:
   '''
 
   trainingData = pd.read_csv('data/training_en.csv',dtype=str)
-  trainingData = trainingData[trainingData['campain'] != 'HAHACKATHON']
+  trainingData = trainingData[trainingData['campain'] == 'EXIST']
   labels_task = [[], [int(i) for i in trainingData['sexism'].to_list()]]
   labels_task += [[np.argmax(trainingData.iloc[i].to_list()[4:]) if trainingData.iloc[i].to_list()[3]=='1' else 5 for i in range(len(trainingData)) ]]
 
   for task in tasks:
 
-    features_train = LoadProbabilitiesData(f'logs/{mode}/train/task{task}_LPtower_1_p=', task)
+    features_train = LoadProbabilitiesData(f'logs/{mode}/train/task{task}_LPtower_1_p=', task, languages)
     svm_model_linear = LinearSVC( ).fit(features_train, labels_task[task])
     print(f'train svm task {task}: {svm_model_linear.score(features_train, labels_task[task])}')
 
-    test_file = pd.read_csv(f'logs/{mode}/task{task}_LPtower_1_p=en_en.csv', sep='\t',dtype=str, header=None).sort_values(by=[1])
-    features_test = LoadProbabilitiesData(f'logs/{mode}/task{task}_LPtower_1_p=', task, sort=True)
+    test_file = pd.read_csv(f'logs/{mode}/task{task}_LPtower_1_p=en_en.csv', sep='\t',dtype=str, header=None).sort_values(by=[1])#!Change {mode} for evaluating
+    features_test = LoadProbabilitiesData(f'logs/{mode}/task{task}_LPtower_1_p=', task, languages, sort=True)
 
     svm_predictions = svm_model_linear.predict(features_test)
     svm_predictions = [params.columns_exist[i] if i < 5 else 'non-sexist' for i in svm_predictions] if task == 2 else [['non-sexist', 'sexist'][i] for i in svm_predictions] 
 
-    with open(f'logs/{mode}/task{task}_LPtower_{submit}_svm.csv', 'wt', newline='', encoding="utf-8") as csvfile:
+    print(f'logs/{mode}/task{task}_LPtower_{submit}_svm.csv')
+    with open(f'logs/{mode}/task{task}_LPtower_{submit}_svm.csv', 'wt', newline='', encoding="utf-8") as csvfile:#!Change {mode} for evaluating
       spamwriter = csv.writer(csvfile, delimiter='\t', quotechar='"', quoting=csv.QUOTE_MINIMAL)
 
       for i in range(len(test_file)):
@@ -158,21 +159,24 @@ def ProbabilitiesAnalysis(mode, tasks, submit = 1) -> None:
 
         
   
-def evaluate(input, task):
+def evaluate(input, task, lang = ['en', 'es']):
 
 
   labels = ['non-sexist', 'sexist'] if task == 1 else ['non-sexist'] + params.columns_exist
   file = pd.read_csv(input, sep='\t',  dtype=str, header=None).sort_values(by=[1])
 
-  gold = pd.read_csv(f'data/EXIST/training/EXIST2021_test.tsv', sep='\t',  dtype=str, usecols=['id', f'task{task}']).sort_values(by=['id'])
+  gold = pd.read_csv(f'data/EXIST/training/EXIST2021_test.tsv', sep='\t',  dtype=str, usecols=['id', f'task{task}', 'language']).sort_values(by=['id'])
 
   y = []
   y_hat = []
   for i in range(len(gold)):
+    if gold.iloc[i]['language'] not in lang:
+      continue
+    
     if file.iloc[i][1] != gold.iloc[i]['id']:
       print('Wrong arrangemet')
     y_hat += [labels.index(file.iloc[i][2])]
     y += [labels.index(gold.iloc[i][f'task{task}'])]
 
   
-  print(f"acc: {accuracy_score(y, y_hat)}\nf1: {f1_score(y, y_hat, average='macro')}")
+  print(f"acc: {accuracy_score(y, y_hat):.4f}\nf1: {f1_score(y, y_hat, average='macro'):.4f}")

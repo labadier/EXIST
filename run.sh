@@ -73,7 +73,6 @@
 # python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l es -lp es -df data/test_es.csv -mtl mtl
 # python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l fr -lp fr -df data/test_fr.csv -mtl mtl
 # python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l de -lp de -df data/test_de.csv -mtl mtl
-
 # python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l pt -lp pt -df data/test_pt.csv -mtl mtl
 # python main.py -phase eval -wm online -interm_layer 64 -bs 128 -l it -lp it -df data/test_it.csv -mtl mtl
 

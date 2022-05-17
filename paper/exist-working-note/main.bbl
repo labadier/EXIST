@@ -1,0 +1,331 @@
+\begin{thebibliography}{26}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\href}[2]{#2}
+\providecommand{\path}[1]{#1}
+\providecommand{\DOIprefix}{doi:}
+\providecommand{\ArXivprefix}{arXiv:}
+\providecommand{\URLprefix}{URL: }
+\providecommand{\Pubmedprefix}{pmid:}
+\providecommand{\doi}[1]{\href{http://dx.doi.org/#1}{\path{#1}}}
+\providecommand{\Pubmed}[1]{\href{pmid:#1}{\path{#1}}}
+\providecommand{\bibinfo}[2]{#2}
+\ifx\xfnm\relax \def\xfnm[#1]{\unskip,\space#1}\fi
+%Type = Book
+\bibitem[{Berg and of~New York. Ph. D. Program~in
+  Social~Welfare(2001)}]{berg2001everyday}
+\bibinfo{author}{S.~Berg}, \bibinfo{author}{C.~U. of~New York. Ph. D.
+  Program~in Social~Welfare}, \bibinfo{title}{Everyday Sexism and
+  Post-traumatic Stress Disorder in Women: A Correlational Study},
+  \bibinfo{publisher}{City University of New York}, \bibinfo{year}{2001}.
+  \URLprefix \url{https://books.google.com.cu/books?id=XzqvwgEACAAJ}.
+%Type = Article
+\bibitem[{Fox et~al.(2015)Fox, Cruz, and Lee}]{10.1016/j.chb.2015.06.024}
+\bibinfo{author}{J.~Fox}, \bibinfo{author}{C.~Cruz}, \bibinfo{author}{J.~Y.
+  Lee},
+\newblock \bibinfo{title}{Perpetuating online sexism offline},
+\newblock \bibinfo{journal}{Comput. Hum. Behav.} \bibinfo{volume}{52}
+  (\bibinfo{year}{2015}) \bibinfo{pages}{436–442}. \URLprefix
+  \url{https://doi.org/10.1016/j.chb.2015.06.024}.
+  \DOIprefix\doi{10.1016/j.chb.2015.06.024}.
+%Type = Article
+\bibitem[{Rodríguez-Sánchez et~al.(2022)Rodríguez-Sánchez, de~Albornoz,
+  Plaza, Mendieta-Aragón, Marco-Remón, Makeienko, Plaza, Gonzalo, Spina, and
+  Rosso}]{EXIST2022}
+\bibinfo{author}{F.~Rodríguez-Sánchez}, \bibinfo{author}{J.~C. de~Albornoz},
+  \bibinfo{author}{L.~Plaza}, \bibinfo{author}{A.~Mendieta-Aragón},
+  \bibinfo{author}{G.~Marco-Remón}, \bibinfo{author}{M.~Makeienko},
+  \bibinfo{author}{M.~Plaza}, \bibinfo{author}{J.~Gonzalo},
+  \bibinfo{author}{D.~Spina}, \bibinfo{author}{P.~Rosso},
+\newblock \bibinfo{title}{Overview of exist 2022: sexism identification in
+  social networks},
+\newblock \bibinfo{journal}{Procesamiento del Lenguaje Natural}
+  \bibinfo{volume}{69} (\bibinfo{year}{2022}).
+%Type = Article
+\bibitem[{y~Jorge Carrillo-de-Albornoz y Laura Plaza y Julio Gonzalo y Paolo
+  Rosso y Miriam Comet~y Trinidad~Donoso(2021)}]{PLN6389}
+\bibinfo{author}{F.~R.-S. y~Jorge Carrillo-de-Albornoz y Laura Plaza y Julio
+  Gonzalo y Paolo Rosso y Miriam Comet~y Trinidad~Donoso},
+\newblock \bibinfo{title}{Overview of exist 2021: sexism identification in
+  social networks},
+\newblock \bibinfo{journal}{Procesamiento del Lenguaje Natural}
+  \bibinfo{volume}{67} (\bibinfo{year}{2021}) \bibinfo{pages}{195--207}.
+  \URLprefix
+  \url{http://journal.sepln.org/sepln/ojs/ojs/index.php/pln/article/view/6389}.
+%Type = Article
+\bibitem[{Vaswani et~al.(2017)Vaswani, Shazeer, Parmar, Uszkoreit, Jones,
+  Gomez, Kaiser, and Polosukhin}]{vaswani2017attention}
+\bibinfo{author}{A.~Vaswani}, \bibinfo{author}{N.~Shazeer},
+  \bibinfo{author}{N.~Parmar}, \bibinfo{author}{J.~Uszkoreit},
+  \bibinfo{author}{L.~Jones}, \bibinfo{author}{A.~N. Gomez},
+  \bibinfo{author}{L.~Kaiser}, \bibinfo{author}{I.~Polosukhin},
+\newblock \bibinfo{title}{{Attention Is All You Need}},
+\newblock \bibinfo{journal}{CoRR} \bibinfo{volume}{abs/1706.03762}
+  (\bibinfo{year}{2017}). \URLprefix \url{http://arxiv.org/abs/1706.03762}.
+  \href{http://arxiv.org/abs/1706.03762}{{\tt arXiv:1706.03762}}.
+%Type = Article
+\bibitem[{Devlin et~al.(2018)Devlin, Chang, Lee, and
+  Toutanova}]{DBLP:journals/corr/abs-1810-04805}
+\bibinfo{author}{J.~Devlin}, \bibinfo{author}{M.~Chang},
+  \bibinfo{author}{K.~Lee}, \bibinfo{author}{K.~Toutanova},
+\newblock \bibinfo{title}{{BERT: Pre-training of Deep Bidirectional
+  Transformers for Language Understanding}},
+\newblock \bibinfo{journal}{CoRR} \bibinfo{volume}{abs/1810.04805}
+  (\bibinfo{year}{2018}). \URLprefix \url{http://arxiv.org/abs/1810.04805}.
+  \href{http://arxiv.org/abs/1810.04805}{{\tt arXiv:1810.04805}}.
+%Type = Article
+\bibitem[{Liu et~al.(2019)Liu, Ott, Goyal, Du, Joshi, Chen, Levy, Lewis,
+  Zettlemoyer, and Stoyanov}]{liu2019roberta}
+\bibinfo{author}{Y.~Liu}, \bibinfo{author}{M.~Ott}, \bibinfo{author}{N.~Goyal},
+  \bibinfo{author}{J.~Du}, \bibinfo{author}{M.~Joshi},
+  \bibinfo{author}{D.~Chen}, \bibinfo{author}{O.~Levy},
+  \bibinfo{author}{M.~Lewis}, \bibinfo{author}{L.~Zettlemoyer},
+  \bibinfo{author}{V.~Stoyanov},
+\newblock \bibinfo{title}{{RoBERTa: {A} Robustly Optimized {BERT} Pretraining
+  Approach}},
+\newblock \bibinfo{journal}{CoRR} \bibinfo{volume}{abs/1907.11692}
+  (\bibinfo{year}{2019}). \URLprefix \url{http://arxiv.org/abs/1907.11692}.
+  \href{http://arxiv.org/abs/1907.11692}{{\tt arXiv:1907.11692}}.
+%Type = Inproceedings
+\bibitem[{Cañete et~al.(2020)Cañete, Chaperon, Fuentes, Ho, Kang, and
+  Pérez}]{CaneteCFP2020}
+\bibinfo{author}{J.~Cañete}, \bibinfo{author}{G.~Chaperon},
+  \bibinfo{author}{R.~Fuentes}, \bibinfo{author}{J.-H. Ho},
+  \bibinfo{author}{H.~Kang}, \bibinfo{author}{J.~Pérez},
+\newblock \bibinfo{title}{{Spanish Pre-Trained BERT Model and Evaluation
+  Data}},
+\newblock in: \bibinfo{booktitle}{PML4DC at ICLR 2020}, \bibinfo{year}{2020}.
+%Type = Misc
+\bibitem[{de~Paula et~al.(2021)de~Paula, da~Silva, and
+  Schlicht}]{https://doi.org/10.48550/arxiv.2111.04551}
+\bibinfo{author}{A.~F.~M. de~Paula}, \bibinfo{author}{R.~F. da~Silva},
+  \bibinfo{author}{I.~B. Schlicht}, \bibinfo{title}{Sexism prediction in
+  spanish and english tweets using monolingual and multilingual bert and
+  ensemble models}, \bibinfo{year}{2021}. \URLprefix
+  \url{https://arxiv.org/abs/2111.04551}.
+  \DOIprefix\doi{10.48550/ARXIV.2111.04551}.
+%Type = Inproceedings
+\bibitem[{Sch{\"u}tz et~al.(2021)Sch{\"u}tz, Boeck, Liakhovets, Slijepcevic,
+  Kirchknopf, Hecht, Bogensperger, Schlarb, Schindler, and
+  Zeppelzauer}]{Schtz2021AutomaticSD}
+\bibinfo{author}{M.~Sch{\"u}tz}, \bibinfo{author}{J.~Boeck},
+  \bibinfo{author}{D.~Liakhovets}, \bibinfo{author}{D.~Slijepcevic},
+  \bibinfo{author}{A.~Kirchknopf}, \bibinfo{author}{M.~Hecht},
+  \bibinfo{author}{J.~Bogensperger}, \bibinfo{author}{S.~Schlarb},
+  \bibinfo{author}{A.~Schindler}, \bibinfo{author}{M.~Zeppelzauer},
+\newblock \bibinfo{title}{Automatic sexism detection with multilingual
+  transformer models ait fhstp@exist2021},
+\newblock in: \bibinfo{booktitle}{IberLEF@SEPLN}, \bibinfo{year}{2021}.
+%Type = Article
+\bibitem[{Rodríguez-Sánchez et~al.(2020)Rodríguez-Sánchez, Carrillo-de
+  Albornoz, and Plaza}]{9281090}
+\bibinfo{author}{F.~Rodríguez-Sánchez}, \bibinfo{author}{J.~Carrillo-de
+  Albornoz}, \bibinfo{author}{L.~Plaza},
+\newblock \bibinfo{title}{Automatic classification of sexism in social
+  networks: An empirical study on twitter data},
+\newblock \bibinfo{journal}{IEEE Access} \bibinfo{volume}{8}
+  (\bibinfo{year}{2020}) \bibinfo{pages}{219563--219576}.
+  \DOIprefix\doi{10.1109/ACCESS.2020.3042604}.
+%Type = Inproceedings
+\bibitem[{Basile et~al.(2019)Basile, Bosco, Fersini, Nozza, Patti,
+  Rangel~Pardo, Rosso, and Sanguinetti}]{basile-etal-2019-semeval}
+\bibinfo{author}{V.~Basile}, \bibinfo{author}{C.~Bosco},
+  \bibinfo{author}{E.~Fersini}, \bibinfo{author}{D.~Nozza},
+  \bibinfo{author}{V.~Patti}, \bibinfo{author}{F.~M. Rangel~Pardo},
+  \bibinfo{author}{P.~Rosso}, \bibinfo{author}{M.~Sanguinetti},
+\newblock \bibinfo{title}{{SemEval-2019 Task 5: Multilingual Detection of Hate
+  Speech Against Immigrants and Women in Twitter}},
+\newblock in: \bibinfo{booktitle}{Proceedings of the 13th International
+  Workshop on Semantic Evaluation}, \bibinfo{publisher}{Association for
+  Computational Linguistics}, \bibinfo{address}{Minneapolis, Minnesota, USA},
+  \bibinfo{year}{2019}, pp. \bibinfo{pages}{54--63}. \URLprefix
+  \url{https://www.aclweb.org/anthology/S19-2007}.
+  \DOIprefix\doi{10.18653/v1/S19-2007}.
+%Type = Inproceedings
+\bibitem[{Kumar et~al.(2021)Kumar, Pal, and Pamula}]{DBLP:conf/sepln/KumarPP21}
+\bibinfo{author}{R.~Kumar}, \bibinfo{author}{S.~Pal},
+  \bibinfo{author}{R.~Pamula},
+\newblock \bibinfo{title}{Sexism detection in english and spanish tweets},
+\newblock in: \bibinfo{editor}{M.~Montes}, \bibinfo{editor}{P.~Rosso},
+  \bibinfo{editor}{J.~Gonzalo}, \bibinfo{editor}{M.~E. Arag{\'{o}}n},
+  \bibinfo{editor}{R.~Agerri}, \bibinfo{editor}{M.~{\'{A}}.~{\'{A}}. Carmona},
+  \bibinfo{editor}{E.~{\'{A}}. Mellado},
+  \bibinfo{editor}{J.~Carrillo{-}de{-}Albornoz}, \bibinfo{editor}{L.~Chiruzzo},
+  \bibinfo{editor}{L.~A. de~Freitas},
+  \bibinfo{editor}{H.~G{\'{o}}mez{-}Adorno},
+  \bibinfo{editor}{Y.~Guti{\'{e}}rrez}, \bibinfo{editor}{S.~M.~J. Zafra},
+  \bibinfo{editor}{S.~Lima}, \bibinfo{editor}{F.~M.~P. del Arco},
+  \bibinfo{editor}{M.~Taul{\'{e}}} (Eds.), \bibinfo{booktitle}{Proceedings of
+  the Iberian Languages Evaluation Forum (IberLEF 2021) co-located with the
+  Conference of the Spanish Society for Natural Language Processing {(SEPLN}
+  2021), {XXXVII} International Conference of the Spanish Society for Natural
+  Language Processing., M{\'{a}}laga, Spain, September, 2021}, volume
+  \bibinfo{volume}{2943} of \textit{\bibinfo{series}{{CEUR} Workshop
+  Proceedings}}, \bibinfo{publisher}{CEUR-WS.org}, \bibinfo{year}{2021}, pp.
+  \bibinfo{pages}{500--505}. \URLprefix
+  \url{http://ceur-ws.org/Vol-2943/exist\_paper17.pdf}.
+%Type = Inproceedings
+\bibitem[{Rodrigo-Ginés et~al.(2021)Rodrigo-Ginés, de~Albornoz, and
+  Plaza}]{unedunbased}
+\bibinfo{author}{F.-J. Rodrigo-Ginés}, \bibinfo{author}{J.~C. de~Albornoz},
+  \bibinfo{author}{L.~Plaza},
+\newblock \bibinfo{title}{Unedbiasteam at iberlef 2021's exist task: Detecting
+  sexism using bias techniques},
+\newblock in: \bibinfo{editor}{M.~Montes}, \bibinfo{editor}{P.~Rosso},
+  \bibinfo{editor}{J.~Gonzalo}, \bibinfo{editor}{M.~E. Arag{\'{o}}n},
+  \bibinfo{editor}{R.~Agerri}, \bibinfo{editor}{M.~{\'{A}}.~{\'{A}}. Carmona},
+  \bibinfo{editor}{E.~{\'{A}}. Mellado},
+  \bibinfo{editor}{J.~Carrillo{-}de{-}Albornoz}, \bibinfo{editor}{L.~Chiruzzo},
+  \bibinfo{editor}{L.~A. de~Freitas},
+  \bibinfo{editor}{H.~G{\'{o}}mez{-}Adorno},
+  \bibinfo{editor}{Y.~Guti{\'{e}}rrez}, \bibinfo{editor}{S.~M.~J. Zafra},
+  \bibinfo{editor}{S.~Lima}, \bibinfo{editor}{F.~M.~P. del Arco},
+  \bibinfo{editor}{M.~Taul{\'{e}}} (Eds.), \bibinfo{booktitle}{Proceedings of
+  the Iberian Languages Evaluation Forum (IberLEF 2021) co-located with the
+  Conference of the Spanish Society for Natural Language Processing {(SEPLN}
+  2021), {XXXVII} International Conference of the Spanish Society for Natural
+  Language Processing., M{\'{a}}laga, Spain, September, 2021}, volume
+  \bibinfo{volume}{2943} of \textit{\bibinfo{series}{{CEUR} Workshop
+  Proceedings}}, \bibinfo{publisher}{CEUR-WS.org}, \bibinfo{year}{2021}.
+%Type = Inproceedings
+\bibitem[{Bevendorff et~al.(2021)Bevendorff, Chulvi, Sarracén, Kestemont,
+  Manjavacas, Markov, Mayerl, Potthast, Rangel, Rosso, Stamatatos, Stein,
+  Wiegmann, Wolska, , and Zangerle}]{bevendorff:2021a}
+\bibinfo{author}{J.~Bevendorff}, \bibinfo{author}{B.~Chulvi},
+  \bibinfo{author}{G.~L. D. L.~P. Sarracén}, \bibinfo{author}{M.~Kestemont},
+  \bibinfo{author}{E.~Manjavacas}, \bibinfo{author}{I.~Markov},
+  \bibinfo{author}{M.~Mayerl}, \bibinfo{author}{M.~Potthast},
+  \bibinfo{author}{F.~Rangel}, \bibinfo{author}{P.~Rosso},
+  \bibinfo{author}{E.~Stamatatos}, \bibinfo{author}{B.~Stein},
+  \bibinfo{author}{M.~Wiegmann}, \bibinfo{author}{M.~Wolska}, ,
+  \bibinfo{author}{E.~Zangerle},
+\newblock \bibinfo{title}{{Overview of PAN 2021: Authorship Verification,
+  Profiling Hate Speech Spreaders on Twitter, and Style Change Detection}},
+\newblock in: \bibinfo{editor}{D.~Hiemstra}, \bibinfo{editor}{M.~Moens},
+  \bibinfo{editor}{J.~Mothe}, \bibinfo{editor}{R.~Perego},
+  \bibinfo{editor}{M.~Potthast}, \bibinfo{editor}{F.~Sebastiani} (Eds.),
+  \bibinfo{booktitle}{Advances in Information Retrieval (ECIR 2021)},
+  \bibinfo{publisher}{Springer}, \bibinfo{year}{2021}. \URLprefix
+  \url{https://doi.org/10.1007/978-3-030-72240-1_66}.
+%Type = Article
+\bibitem[{y~Santiago Castro y Santiago Góngora y Aiala Rosa y J. A. Meaney~y
+  Rada~Mihalcea(2021)}]{PLN6394}
+\bibinfo{author}{L.~C. y~Santiago Castro y Santiago Góngora y Aiala Rosa y J.
+  A. Meaney~y Rada~Mihalcea},
+\newblock \bibinfo{title}{Overview of haha at iberlef 2021: Detecting, rating
+  and analyzing humor in spanish},
+\newblock \bibinfo{journal}{Procesamiento del Lenguaje Natural}
+  \bibinfo{volume}{67} (\bibinfo{year}{2021}) \bibinfo{pages}{257--268}.
+  \URLprefix
+  \url{http://journal.sepln.org/sepln/ojs/ojs/index.php/pln/article/view/6394}.
+%Type = Inproceedings
+\bibitem[{Meaney et~al.(2021)Meaney, Wilson, Chiruzzo, Lopez, and
+  Magdy}]{43a63aada26e44b0b5bb110cb1934c04}
+\bibinfo{author}{J.~Meaney}, \bibinfo{author}{S.~Wilson},
+  \bibinfo{author}{L.~Chiruzzo}, \bibinfo{author}{A.~Lopez},
+  \bibinfo{author}{W.~Magdy},
+\newblock \bibinfo{title}{Semeval 2021 task 7: Hahackathon, detecting and
+  rating humor and offense},
+\newblock in: \bibinfo{booktitle}{Proceedings of the 15th International
+  Workshop on Semantic Evaluation (SemEval 2021)},
+  \bibinfo{publisher}{Association for Computational Linguistics (ACL)},
+  \bibinfo{year}{2021}, pp. \bibinfo{pages}{105--119}. \URLprefix
+  \url{https://semeval.github.io/SemEval2021/}.
+  \DOIprefix\doi{10.18653/v1/2021.semeval-1.9}, \bibinfo{note}{15th
+  International Workshop on Semantic Evaluation, SemEval 2021 ; Conference
+  date: 05-08-2021 Through 06-08-2021}.
+%Type = Inproceedings
+\bibitem[{Gasparini et~al.(2022)Gasparini, Rizzi, Saibene, Chulvi, Rosso, Lees,
+  and Sorensen}]{task5}
+\bibinfo{author}{E.~F.~F. Gasparini}, \bibinfo{author}{G.~Rizzi},
+  \bibinfo{author}{A.~Saibene}, \bibinfo{author}{B.~Chulvi},
+  \bibinfo{author}{P.~Rosso}, \bibinfo{author}{A.~Lees},
+  \bibinfo{author}{J.~Sorensen},
+\newblock \bibinfo{title}{{SemEval-2022 Task 5}: Multimedia automatic misogyny
+  identification},
+\newblock in: \bibinfo{booktitle}{Proceedings of the 16th International
+  Workshop on Semantic Evaluation (SemEval-2022)},
+  \bibinfo{publisher}{Association for Computational Linguistics},
+  \bibinfo{year}{2022}.
+%Type = Inproceedings
+\bibitem[{Nguyen et~al.(2020)Nguyen, Vu, and Nguyen}]{bertweet}
+\bibinfo{author}{D.~Q. Nguyen}, \bibinfo{author}{T.~Vu}, \bibinfo{author}{A.~T.
+  Nguyen},
+\newblock \bibinfo{title}{{BERTweet: A pre-trained language model for English
+  Tweets}},
+\newblock in: \bibinfo{booktitle}{Proceedings of the 2020 Conference on
+  Empirical Methods in Natural Language Processing: System Demonstrations},
+  \bibinfo{year}{2020}, pp. \bibinfo{pages}{9--14}.
+%Type = Misc
+\bibitem[{Pérez et~al.(2021)Pérez, Giudici, and
+  Luque}]{perez2021pysentimiento}
+\bibinfo{author}{J.~M. Pérez}, \bibinfo{author}{J.~C. Giudici},
+  \bibinfo{author}{F.~Luque}, \bibinfo{title}{pysentimiento: A python toolkit
+  for sentiment analysis and socialnlp tasks}, \bibinfo{year}{2021}.
+  \href{http://arxiv.org/abs/2106.09462}{{\tt arXiv:2106.09462}}.
+%Type = Inproceedings
+\bibitem[{Le et~al.(2020)Le, Vial, Frej, Segonne, Coavoux, Lecouteux, Allauzen,
+  Crabb\'{e}, Besacier, and Schwab}]{le2020flaubert}
+\bibinfo{author}{H.~Le}, \bibinfo{author}{L.~Vial}, \bibinfo{author}{J.~Frej},
+  \bibinfo{author}{V.~Segonne}, \bibinfo{author}{M.~Coavoux},
+  \bibinfo{author}{B.~Lecouteux}, \bibinfo{author}{A.~Allauzen},
+  \bibinfo{author}{B.~Crabb\'{e}}, \bibinfo{author}{L.~Besacier},
+  \bibinfo{author}{D.~Schwab},
+\newblock \bibinfo{title}{Flaubert: Unsupervised language model pre-training
+  for french},
+\newblock in: \bibinfo{booktitle}{Proceedings of The 12th Language Resources
+  and Evaluation Conference}, \bibinfo{publisher}{European Language Resources
+  Association}, \bibinfo{address}{Marseille, France}, \bibinfo{year}{2020}, pp.
+  \bibinfo{pages}{2479--2490}. \URLprefix
+  \url{https://www.aclweb.org/anthology/2020.lrec-1.302}.
+%Type = Inproceedings
+\bibitem[{Souza et~al.(2020)Souza, Nogueira, and Lotufo}]{souza2020bertimbau}
+\bibinfo{author}{F.~Souza}, \bibinfo{author}{R.~Nogueira},
+  \bibinfo{author}{R.~Lotufo},
+\newblock \bibinfo{title}{{BERT}imbau: pretrained {BERT} models for {B}razilian
+  {P}ortuguese},
+\newblock in: \bibinfo{booktitle}{9th Brazilian Conference on Intelligent
+  Systems, {BRACIS}, Rio Grande do Sul, Brazil, October 20-23 (to appear)},
+  \bibinfo{year}{2020}.
+%Type = Misc
+\bibitem[{Schweter(2020)}]{stefan_schweter_2020_4263142}
+\bibinfo{author}{S.~Schweter}, \bibinfo{title}{Italian bert and electra
+  models}, \bibinfo{year}{2020}. \URLprefix
+  \url{https://doi.org/10.5281/zenodo.4263142}.
+  \DOIprefix\doi{10.5281/zenodo.4263142}.
+%Type = Inproceedings
+\bibitem[{Guhr et~al.(2020)Guhr, Schumann, Bahrmann, and
+  Böhme}]{guhr-EtAl:2020:LREC}
+\bibinfo{author}{O.~Guhr}, \bibinfo{author}{A.-K. Schumann},
+  \bibinfo{author}{F.~Bahrmann}, \bibinfo{author}{H.~J. Böhme},
+\newblock \bibinfo{title}{Training a broad-coverage german sentiment
+  classification model for dialog systems},
+\newblock in: \bibinfo{booktitle}{Proceedings of The 12th Language Resources
+  and Evaluation Conference}, \bibinfo{publisher}{European Language Resources
+  Association}, \bibinfo{address}{Marseille, France}, \bibinfo{year}{2020}, pp.
+  \bibinfo{pages}{1620--1625}. \URLprefix
+  \url{https://www.aclweb.org/anthology/2020.lrec-1.202}.
+%Type = Inproceedings
+\bibitem[{{Labadie Tamayo} et~al.(2021){Labadie Tamayo}, {Castro Castro}, and
+  {Ortega Bueno}}]{tamayo:2021}
+\bibinfo{author}{R.~{Labadie Tamayo}}, \bibinfo{author}{D.~{Castro Castro}},
+  \bibinfo{author}{R.~{Ortega Bueno}},
+\newblock \bibinfo{title}{{Deep Modeling of Latent Representations for Twitter
+  Profiles on Hate Speech Spreaders Identification Task---Notebook for PAN at
+  CLEF 2021}},
+\newblock in: \bibinfo{editor}{G.~Faggioli}, \bibinfo{editor}{N.~Ferro},
+  \bibinfo{editor}{A.~Joly}, \bibinfo{editor}{M.~Maistro},
+  \bibinfo{editor}{F.~Piroi} (Eds.), \bibinfo{booktitle}{{CLEF 2021 Labs and
+  Workshops, Notebook Papers}}, \bibinfo{publisher}{CEUR-WS.org},
+  \bibinfo{year}{2021}. \URLprefix
+  \url{http://ceur-ws.org/Vol-2936/paper-177.pdf}.
+%Type = Article
+\bibitem[{Hinton et~al.(2012)Hinton, Srivastava, and
+  Swersky}]{hinton2012lecture}
+\bibinfo{author}{G.~Hinton}, \bibinfo{author}{N.~Srivastava},
+  \bibinfo{author}{K.~Swersky},
+\newblock \bibinfo{title}{Lecture 6a overview of mini--batch gradient descent},
+\newblock \bibinfo{journal}{Coursera Lecture slides https://class. coursera.
+  org/neuralnets-2012-001/lecture,[Online}  (\bibinfo{year}{2012}).
+
+\end{thebibliography}

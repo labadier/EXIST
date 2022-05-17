@@ -9,11 +9,14 @@ def dataAugmentation() -> None:
     spamwriter = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
     spamwriter.writerow(params.columns)
     
+    print("mami", len(data_frame))
     for row in data_frame.iterrows():
       spamwriter.writerow(['MAMI'] + ["en", row[1]['Text Transcription'].replace('\n', ' '), row[1]['misogynous'], row[1]['shaming'], 
       row[1]['stereotype'], row[1]['objectification'], row[1]['violence'], int(row[1]['misogynous'] == 1)])
 
   data_frame = pd.read_csv(os.path.join(params.root, 'data/HAHA/filtered.csv'))
+
+  print("haha", len(data_frame))
   with open(os.path.join(params.root, 'data/augmented.csv'), 'at', newline='', encoding="utf-8") as csvfile:
     spamwriter = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
     for row in data_frame.iterrows():
@@ -22,6 +25,7 @@ def dataAugmentation() -> None:
   data_frame = pd.read_csv(os.path.join(params.root, 'data/HAHACKATHON/train.csv'))
   data_frame = data_frame[data_frame.apply(lambda x: x.astype(str).str.lower())['text'].str.contains('|'.join(params.sexistPhrase))][data_frame['offense_rating'] > 1.0]
 
+  print("hahackathon", len(data_frame))
   with open(os.path.join(params.root, 'data/augmented.csv'), 'at', newline='', encoding="utf-8") as csvfile:
     spamwriter = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
     for row in data_frame.iterrows():

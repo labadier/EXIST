@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/Arch Linux) (preloaded format=pdflatex 2022.1.26)  1 APR 2022 08:06
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/Arch Linux) (preloaded format=pdflatex 2022.1.26)  15 APR 2022 01:27
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -245,45 +245,55 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 LaTeX Warning: No \author given.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 15--22
+Underfull \hbox (badness 10000) in paragraph at lines 15--23
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 15--22
+Underfull \hbox (badness 10000) in paragraph at lines 15--23
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 15--22
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 15--22
+Underfull \hbox (badness 10000) in paragraph at lines 15--23
 
  []
 
 [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] (./proposalExist22.aux) ) 
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+Underfull \hbox (badness 10000) in paragraph at lines 24--25
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 26--28
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 29--31
+
+ []
+
+[2
+
+] (./proposalExist22.aux) ) 
 Here is how much of TeX's memory you used:
- 3093 strings out of 478353
- 45542 string characters out of 5854635
- 346781 words of memory out of 5000000
- 21204 multiletter control sequences out of 15000+600000
- 409300 words of font info for 51 fonts, out of 8000000 for 9000
+ 3091 strings out of 478353
+ 45518 string characters out of 5854635
+ 348781 words of memory out of 5000000
+ 21203 multiletter control sequences out of 15000+600000
+ 408992 words of font info for 50 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 55i,6n,62p,497b,221s stack positions out of 5000i,500n,10000p,200000b,80000s
-<
-/usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/t
-ype1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-dist/fonts/type1/public/ams
-fonts/cm/cmr17.pfb>
-Output written on proposalExist22.pdf (1 page, 55616 bytes).
+ 55i,6n,62p,697b,221s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></u
+sr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb>
+Output written on proposalExist22.pdf (2 pages, 49528 bytes).
 PDF statistics:
- 28 PDF objects out of 1000 (max. 8388607)
- 16 compressed objects within 1 object stream
+ 26 PDF objects out of 1000 (max. 8388607)
+ 15 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
